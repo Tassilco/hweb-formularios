@@ -25,6 +25,39 @@
 </style>
 </head>
 <body>
+<div id="pw-gate" style="position:fixed;inset:0;z-index:9999;background:#f5f4f2;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;">
+  <div style="background:#fff;border:1px solid rgba(26,25,22,0.12);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(26,25,22,0.10);text-align:center;">
+    <div style="font-size:28px;margin-bottom:12px;">🔒</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c4561a;margin-bottom:8px;">HSystem · HWEB</div>
+    <h2 style="font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:6px;">Acesso restrito</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:24px;">Digite a senha para acessar os formulários.</p>
+    <input id="pw-input" type="password" placeholder="Senha" style="width:100%;padding:10px 14px;border:1.5px solid rgba(26,25,22,0.18);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:12px;" onkeydown="if(event.key==='Enter')checkPw()">
+    <div id="pw-error" style="color:#c4561a;font-size:12px;margin-bottom:10px;min-height:16px;"></div>
+    <button onclick="checkPw()" style="width:100%;padding:11px;background:#c4561a;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Entrar</button>
+  </div>
+</div>
+<script>
+  const PW_HASH='a2d89fe0d7f9ef8c8b97223734870dcfce4c0cfbcc6050a4a5b459173e354aad';
+  (function(){
+    if(sessionStorage.getItem('hweb_auth')==='ok'){
+      document.getElementById('pw-gate').style.display='none';
+    }
+  })();
+  async function checkPw(){
+    var v=document.getElementById('pw-input').value;
+    var enc=new TextEncoder().encode(v);
+    var buf=await crypto.subtle.digest('SHA-256',enc);
+    var hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===PW_HASH){
+      sessionStorage.setItem('hweb_auth','ok');
+      document.getElementById('pw-gate').style.display='none';
+    } else {
+      document.getElementById('pw-error').textContent='Senha incorreta.';
+      document.getElementById('pw-input').value='';
+      document.getElementById('pw-input').focus();
+    }
+  }
+</script>
 <div class="container">
   <div class="header">
     <div class="badge">HSystem · HWEB</div>
