@@ -512,14 +512,18 @@
   </div>
 </div>
 <script>
+  const PW_HASH='a2d89fe0d7f9ef8c8b97223734870dcfce4c0cfbcc6050a4a5b459173e354aad';
   (function(){
     if(sessionStorage.getItem('hweb_auth')==='ok'){
       document.getElementById('pw-gate').style.display='none';
     }
   })();
-  function checkPw(){
+  async function checkPw(){
     var v=document.getElementById('pw-input').value;
-    if(v==='hweb2025'){
+    var enc=new TextEncoder().encode(v);
+    var buf=await crypto.subtle.digest('SHA-256',enc);
+    var hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===PW_HASH){
       sessionStorage.setItem('hweb_auth','ok');
       document.getElementById('pw-gate').style.display='none';
     } else {
