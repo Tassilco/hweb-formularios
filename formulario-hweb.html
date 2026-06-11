@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HWEB — Formulário de Coleta de Conteúdo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FAFAF7;
+    --surface2: #EFEDE7;
+    --ink: #1A1916;
+    --ink2: #4A4840;
+    --ink3: #8A8780;
+    --accent: #C4561A;
+    --accent2: #E8A87C;
+    --accent-bg: #FDF1E8;
+    --teal: #1A6B5A;
+    --teal-bg: #E8F4F0;
+    --blue: #1A3C6B;
+    --blue-bg: #E8EFF8;
+    --warn: #8A6800;
+    --warn-bg: #FFF8E0;
+    --warn-border: #E8C840;
+    --border: rgba(26,25,22,0.10);
+    --border2: rgba(26,25,22,0.18);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 2px 12px rgba(26,25,22,0.07);
+    --shadow-lg: 0 8px 40px rgba(26,25,22,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,243,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; align-items: center; gap: 0; height: 56px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px; color: var(--ink);
+    margin-right: 40px; white-space: nowrap;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 0; flex: 1; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--ink3);
+    text-decoration: none; padding: 0 16px; height: 56px;
+    display: flex; align-items: center; border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s; white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--ink); border-bottom-color: var(--accent2); }
+  .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-badge {
+    margin-left: auto; font-size: 11px; font-weight: 600;
+    background: var(--accent); color: #fff; padding: 3px 10px;
+    border-radius: 20px; letter-spacing: .04em; text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+  section { padding: 72px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent);
+    background: var(--accent-bg); border: 1px solid rgba(196,86,26,.15);
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 52px); line-height: 1.12;
+    color: var(--ink); margin-bottom: 20px; max-width: 680px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    font-size: 16px; color: var(--ink2); max-width: 580px;
+    margin-bottom: 36px; line-height: 1.7;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); }
+  .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+
+  /* SECTION HEADERS */
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 3.5vw, 36px); line-height: 1.15;
+    color: var(--ink); margin-bottom: 12px;
+  }
+  .section-desc {
+    font-size: 15px; color: var(--ink2); max-width: 600px;
+    line-height: 1.7; margin-bottom: 40px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+  }
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+  .card-icon {
+    width: 40px; height: 40px; border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 14px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .card-body { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+  /* PROBLEM / SOLUTION */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;
+  }
+  .compare-card {
+    border-radius: var(--radius-lg); padding: 24px 28px;
+    border: 1px solid var(--border);
+  }
+  .compare-card.before { background: #F7F4F0; }
+  .compare-card.after { background: var(--teal-bg); border-color: rgba(26,107,90,.2); }
+  .compare-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .before .compare-label { color: var(--ink3); }
+  .after .compare-label { color: var(--teal); }
+  .compare-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 10px; font-size: 13px; line-height: 1.5;
+  }
+  .compare-item:last-child { margin-bottom: 0; }
+  .dot-bad { width: 6px; height: 6px; border-radius: 50%; background: #C4561A; margin-top: 5px; flex-shrink: 0; }
+  .dot-good { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 5px; flex-shrink: 0; }
+
+  /* FLOW */
+  .flow {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .flow-step {
+    display: flex; gap: 20px; position: relative;
+  }
+  .flow-left {
+    display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0;
+  }
+  .flow-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; flex-shrink: 0; z-index: 1;
+  }
+  .flow-line {
+    width: 2px; flex: 1; background: var(--border2); margin: 4px 0; min-height: 24px;
+  }
+  .flow-body { padding: 6px 0 32px; flex: 1; }
+  .flow-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .flow-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .flow-tag {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 4px; margin-top: 8px;
+    letter-spacing: .04em;
+  }
+
+  /* CODE */
+  .code-block {
+    background: #1A1916; color: #D4D0C8;
+    border-radius: var(--radius); padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 1.7;
+    overflow-x: auto; margin: 12px 0;
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .code-block .k { color: #E8A87C; }
+  .code-block .s { color: #A8D8A8; }
+  .code-block .c { color: #666; }
+  .code-block .n { color: #89CFF0; }
+  .code-block .m { color: #FFD580; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; padding: 10px 16px;
+    font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ink3);
+    background: var(--surface2); border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 11px 16px; border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.5; color: var(--ink2);
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface2); }
+  .code-inline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; background: #EEE9E0;
+    padding: 2px 6px; border-radius: 4px; color: var(--accent);
+  }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .badge-req { background: #FDE8E0; color: #B03A1A; }
+  .badge-opt { background: var(--surface2); color: var(--ink3); }
+  .badge-cond { background: var(--warn-bg); color: var(--warn); }
+
+  /* WARN BOX */
+  .warn-box {
+    background: var(--warn-bg); border: 1px solid var(--warn-border);
+    border-radius: var(--radius); padding: 14px 18px;
+    font-size: 13px; color: var(--warn); line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .warn-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .info-box {
+    background: var(--blue-bg); border: 1px solid rgba(26,60,107,.15);
+    border-radius: var(--radius); padding: 14px 18px;
+    font-size: 13px; color: var(--blue); line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+
+  /* TECH STACK */
+  .stack-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+  }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-icon {
+    width: 36px; height: 36px; border-radius: var(--radius);
+    background: var(--surface2); display: flex; align-items: center;
+    justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .stack-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .stack-desc { font-size: 13px; color: var(--ink2); }
+
+  /* FORM PROTOTYPE */
+  .form-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .form-header {
+    background: var(--ink);
+    padding: 20px 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .form-header-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px; color: #fff;
+  }
+  .form-header-logo span { color: var(--accent2); }
+  .form-header-sub { font-size: 12px; color: rgba(255,255,255,.5); margin-left: auto; }
+
+  .form-progress-bar { height: 3px; background: var(--border); }
+  .form-progress-fill { height: 100%; background: var(--accent); transition: width .4s; }
+
+  .form-body { padding: 28px; }
+
+  .step-pills {
+    display: flex; gap: 0; margin-bottom: 28px; overflow-x: auto;
+  }
+  .step-pill {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 16px 0 0; cursor: pointer;
+  }
+  .step-pill:first-child { padding-left: 0; }
+  .pill-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+    border: 2px solid var(--border2); color: var(--ink3);
+    transition: all .2s;
+  }
+  .pill-dot.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pill-dot.done { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .pill-label { font-size: 12px; color: var(--ink3); white-space: nowrap; }
+  .pill-label.active { color: var(--accent); font-weight: 500; }
+  .pill-label.done { color: var(--teal); }
+  .pill-line { width: 20px; height: 1px; background: var(--border2); flex-shrink: 0; }
+  .pill-line.done { background: var(--teal); }
+
+  .form-section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ink3); margin-bottom: 20px;
+  }
+
+  .f-group { margin-bottom: 18px; }
+  .f-label {
+    display: block; font-size: 13px; font-weight: 500;
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .f-req { color: var(--accent); }
+  .f-input {
+    width: 100%; border: 1px solid var(--border2);
+    border-radius: var(--radius); padding: 10px 14px;
+    font-size: 13px; font-family: 'DM Sans', sans-serif;
+    background: #fff; color: var(--ink);
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .f-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196,86,26,.1); }
+  textarea.f-input { min-height: 90px; resize: vertical; }
+  .f-hint { font-size: 12px; color: var(--ink3); margin-top: 5px; }
+
+  .f-upload {
+    border: 1.5px dashed var(--border2); border-radius: var(--radius);
+    padding: 20px; text-align: center; background: #FAFAF7;
+    cursor: pointer; transition: border-color .2s, background .2s;
+  }
+  .f-upload:hover { border-color: var(--accent); background: var(--accent-bg); }
+  .f-upload-icon { font-size: 22px; color: var(--ink3); margin-bottom: 6px; }
+  .f-upload-text { font-size: 13px; color: var(--ink3); }
+  .f-upload-sub { font-size: 11px; color: var(--ink3); margin-top: 3px; }
+
+  .f-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .f-toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; background: var(--surface2);
+    border-radius: var(--radius); margin-bottom: 8px; border: 1px solid var(--border);
+  }
+  .f-toggle-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .f-toggle-sub { font-size: 12px; color: var(--ink3); }
+  .f-toggle {
+    width: 36px; height: 20px; background: var(--border2);
+    border-radius: 10px; cursor: pointer; position: relative;
+    transition: background .2s; flex-shrink: 0; border: none;
+  }
+  .f-toggle.on { background: var(--teal); }
+  .f-toggle::after {
+    content: ''; position: absolute;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #fff; top: 3px; left: 3px; transition: transform .2s;
+  }
+  .f-toggle.on::after { transform: translateX(16px); }
+
+  .acom-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px;
+  }
+  .acom-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .acom-card-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .btn-remove-acom {
+    font-size: 12px; color: var(--ink3); background: none;
+    border: 1px solid var(--border2); border-radius: 6px;
+    padding: 3px 10px; cursor: pointer; display: flex; align-items: center; gap: 4px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-remove-acom:hover { color: var(--accent); border-color: var(--accent); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .f-tag {
+    font-size: 12px; padding: 3px 10px; border-radius: 20px;
+    border: 1px solid var(--border2); cursor: pointer;
+    color: var(--ink3); background: #fff; transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .f-tag.sel { background: var(--accent-bg); color: var(--accent); border-color: rgba(196,86,26,.3); }
+
+  .btn-add-acom {
+    width: 100%; padding: 12px; border: 1.5px dashed rgba(26,107,90,.4);
+    border-radius: var(--radius); background: var(--teal-bg);
+    color: var(--teal); font-size: 13px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    gap: 8px; font-family: 'DM Sans', sans-serif; margin-bottom: 20px;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-add-acom:hover { background: #D4EDE7; border-color: var(--teal); }
+
+  .warn-hbook {
+    background: var(--warn-bg); border: 1px solid var(--warn-border);
+    border-radius: var(--radius); padding: 12px 16px;
+    font-size: 13px; color: var(--warn); line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .warn-hbook strong { display: block; margin-bottom: 2px; }
+
+  .form-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; border-top: 1px solid var(--border); margin-top: 8px;
+  }
+  .btn-nav {
+    padding: 10px 22px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: all .15s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-back { background: #fff; border: 1px solid var(--border2); color: var(--ink2); }
+  .btn-back:hover { border-color: var(--ink3); }
+  .btn-next { background: var(--accent); border: none; color: #fff; }
+  .btn-next:hover { background: #A8461A; }
+  .step-count { font-size: 12px; color: var(--ink3); }
+
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,.5);
+    padding: 40px; text-align: center; font-size: 13px;
+    margin-top: 0;
+  }
+  footer strong { color: rgba(255,255,255,.8); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { animation: fadeUp .5s ease both; }
+  .delay-1 { animation-delay: .1s; }
+  .delay-2 { animation-delay: .2s; }
+  .delay-3 { animation-delay: .3s; }
+
+  /* SECTION NAME EDITABLE */
+  .section-name-input {
+    border: none; background: transparent;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    border-bottom: 1.5px dashed var(--border2);
+    padding: 2px 0; width: 100%; display: block;
+    transition: border-color .2s;
+  }
+  .section-name-input:focus { outline: none; border-bottom-color: var(--accent); }
+
+  /* CONTACT ITEM */
+  .contact-item {
+    display: grid; grid-template-columns: 140px 1fr auto;
+    gap: 10px; align-items: flex-end;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px;
+  }
+  .btn-remove-contact {
+    font-size: 12px; color: var(--ink3); background: none;
+    border: 1px solid var(--border2); border-radius: 6px;
+    padding: 8px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: all .15s; white-space: nowrap;
+  }
+  .btn-remove-contact:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* TERMS CHECKBOX */
+  .terms-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+    margin-top: 20px; margin-bottom: 16px;
+  }
+  .terms-box label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+  .terms-box input[type="checkbox"] {
+    margin-top: 3px; flex-shrink: 0;
+    width: 16px; height: 16px; accent-color: var(--accent);
+  }
+  .terms-box span { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+  #btn-submit:disabled { opacity: .4; cursor: not-allowed; }
+
+  @media (max-width: 700px) {
+    .container { padding: 0 20px; }
+    nav { padding: 0 20px; }
+    .card-grid-2, .card-grid-3, .compare-grid, .f-grid-2 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 30px; }
+    .nav-links { display: none; }
+    .contact-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">H<span>WEB</span> · Coleta de Conteúdo</div>
+  <div class="nav-links">
+    <a href="#contexto" class="active">Contexto</a>
+    <a href="#solucao">Solução</a>
+    <a href="#fluxo">Fluxo</a>
+    <a href="#formulario">Formulário</a>
+    <a href="#api">API Duda</a>
+    <a href="#dev">Dev Handoff</a>
+  </div>
+  <span class="nav-badge">v1.0 · 2026</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-eyebrow animate">HSystem · Produto Digital</div>
+    <h1 class="animate delay-1">Formulário de Coleta de Conteúdo <em>HWEB</em></h1>
+    <p class="hero-desc animate delay-2">Especificação completa para gestão e desenvolvimento. Otimização do processo de implantação de sites hoteleiros na plataforma Duda, com integração via API.</p>
+    <div class="hero-meta animate delay-3">
+      <div class="meta-item"><span class="meta-label">Produto</span><span class="meta-value">HWEB — Site Hoteleiro</span></div>
+      <div class="meta-item"><span class="meta-label">Plataforma</span><span class="meta-value">Duda (White Label)</span></div>
+      <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">Node.js + Duda REST API</span></div>
+      <div class="meta-item"><span class="meta-label">Área</span><span class="meta-value">CS Onboarding → Squad HWEB</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <div class="container">
+    <div class="section-eyebrow">01 · Contexto</div>
+    <h2 class="section-title">Como funciona hoje e onde queremos chegar</h2>
+    <p class="section-desc">O processo atual depende de comunicação manual, estrutura de pastas no Google Drive e documento Word. O resultado é bom, mas o caminho gera retrabalho e risco de erro.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card before">
+        <div class="compare-label">⬤ Processo atual</div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Analista cria pasta manualmente no Google Drive por cliente</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Cliente recebe documento Word modelo para preencher textos</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Imagens enviadas sem validação de resolução ou formato</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Analista organiza manualmente o conteúdo antes de produzir</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Sem rastreabilidade de status da coleta por propriedade</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Conteúdo chega fragmentado, exigindo reunião de alinhamento</span></div>
+      </div>
+      <div class="compare-card after">
+        <div class="compare-label">⬤ Processo proposto</div>
+        <div class="compare-item"><span class="dot-good"></span><span>Formulário estruturado enviado ao cliente com link único</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Campos com validação em tempo real — texto e imagem</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Lógica condicional: só aparecem campos das seções que existem</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Ao submeter, conteúdo é injetado automaticamente no Duda via API</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Analista recebe notificação e revisa conteúdo já organizado</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Log de status por propriedade disponível no sistema HSystem</span></div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid-3" style="margin-top:12px">
+      <div class="card">
+        <div class="card-icon" style="background:#FDE8E0;font-size:20px">⏱</div>
+        <div class="card-title">Menos tempo de coleta</div>
+        <div class="card-body">Elimina vai-e-vem de mensagens para corrigir imagens fora do padrão ou campos incompletos.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:var(--teal-bg);font-size:20px">⚡</div>
+        <div class="card-title">Analista começa produzindo</div>
+        <div class="card-body">O conteúdo já entra organizado no Duda. O analista abre o editor e começa o site, sem montar estrutura.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:var(--blue-bg);font-size:20px">📊</div>
+        <div class="card-title">Visibilidade de processo</div>
+        <div class="card-body">Cada propriedade tem status rastreável: aguardando envio, em revisão, aprovado, em produção.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao">
+  <div class="container">
+    <div class="section-eyebrow">02 · Solução</div>
+    <h2 class="section-title">Arquitetura da solução</h2>
+    <p class="section-desc">Formulário próprio embarcado no sistema HSystem, com backend Node.js responsável pelo mapeamento e integração com a API REST do Duda.</p>
+
+    <div class="card" style="margin-bottom:20px">
+      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Stack tecnológica</div>
+      <div class="stack-item">
+        <div class="stack-icon">🌐</div>
+        <div><div class="stack-name">Frontend — Formulário embarcado (HTML/CSS/JS ou React)</div><div class="stack-desc">Multi-step com 6 etapas, lógica condicional por seções, upload de imagens com validação de resolução (mín. 1200×800px), tags de comodidades, categorias dinâmicas de acomodação.</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">⚙️</div>
+        <div><div class="stack-name">Backend — Node.js (Express ou Fastify)</div><div class="stack-desc">Recebe o payload do formulário, valida, faz upload das imagens para o Duda, monta o JSON de conteúdo e chama a Content API. Gerencia retry automático, log por propriedade e notificação para o analista.</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">🔗</div>
+        <div><div class="stack-name">Integração — Duda Partner REST API</div><div class="stack-desc">Autenticação Basic (API user:password). Endpoints utilizados: POST /content para textos e contatos, POST /resources/upload para imagens, e notificação interna após conclusão.</div></div>
+      </div>
+      <div class="stack-item" style="border-bottom:none">
+        <div class="stack-icon">📦</div>
+        <div><div class="stack-name">Armazenamento — banco de dados HSystem</div><div class="stack-desc">Cada envio cria um registro com: id da propriedade, site_name no Duda, status do envio, timestamp, campos preenchidos, lista de imagens enviadas e log de erros.</div></div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <span class="warn-icon">⚠</span>
+      <span>As credenciais da API Duda (user:password) devem ser armazenadas como variáveis de ambiente no backend. <strong>Nunca devem ser expostas no frontend</strong> ou em repositórios de código.</span>
+    </div>
+  </div>
+</section>
+
+<!-- FLUXO -->
+<section id="fluxo">
+  <div class="container">
+    <div class="section-eyebrow">03 · Fluxo</div>
+    <h2 class="section-title">Jornada completa do conteúdo</h2>
+    <p class="section-desc">Do envio pelo cliente até o conteúdo disponível no editor do Duda para o analista iniciar a produção.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-num" style="background:var(--accent-bg);color:var(--accent)">1</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Analista cria o site no Duda e gera o link do formulário</div>
+          <div class="flow-desc">O analista cria o site no Duda (obtendo o <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#EEE9E0;padding:1px 5px;border-radius:3px">site_name</code>), registra a propriedade no sistema HSystem e gera o link personalizado do formulário já vinculado a esse site. O link é enviado ao cliente por WhatsApp ou e-mail.</div>
+          <span class="flow-tag" style="background:var(--blue-bg);color:var(--blue)">Responsável: Analista HWEB</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-num" style="background:var(--teal-bg);color:var(--teal)">2</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Cliente preenche o formulário (6 etapas)</div>
+          <div class="flow-desc">O cliente preenche identificação, contatos, seleciona as seções da propriedade, escreve os textos, cadastra as categorias de acomodação (com alerta de alinhamento HBOOK) e faz upload das imagens. O formulário valida campos obrigatórios e dimensão mínima das fotos antes de permitir o envio.</div>
+          <span class="flow-tag" style="background:var(--teal-bg);color:var(--teal)">Responsável: Cliente</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-num" style="background:var(--accent-bg);color:var(--accent)">3</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Backend processa o envio</div>
+          <div class="flow-desc">O backend recebe o payload, valida integridade dos dados e executa as 4 chamadas à API Duda em sequência: (1) POST /content com textos e contatos, (2) upload da logo + atualização de logo_url, (3) upload das imagens em lote por categoria, (4) atualização de site_images com labels organizados. Em caso de falha em qualquer etapa, retry automático com 3 tentativas e log de erro registrado.</div>
+          <span class="flow-tag" style="background:var(--accent-bg);color:var(--accent)">Responsável: Sistema (automático)</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-num" style="background:var(--blue-bg);color:var(--blue)">4</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-title">Notificação para o analista</div>
+          <div class="flow-desc">Após conclusão dos uploads, o sistema envia notificação interna (e-mail ou card no sistema HSystem) com: nome da propriedade, link direto ao site no Duda, seções preenchidas e eventuais alertas de conteúdo. Status da propriedade muda para "Em revisão".</div>
+          <span class="flow-tag" style="background:var(--blue-bg);color:var(--blue)">Responsável: Sistema (automático)</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-num" style="background:var(--teal-bg);color:var(--teal)">5</div>
+        </div>
+        <div class="flow-body" style="padding-bottom:0">
+          <div class="flow-title">Analista revisa e inicia produção</div>
+          <div class="flow-desc">O analista abre o editor do Duda e encontra todo o conteúdo já organizado na Content Library — textos em Business Data/Site Texts, imagens em pastas nomeadas por categoria. Aprova, solicita ajustes ao cliente ou inicia a produção diretamente.</div>
+          <span class="flow-tag" style="background:var(--teal-bg);color:var(--teal)">Responsável: Analista HWEB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section id="formulario">
+  <div class="container">
+    <div class="section-eyebrow">04 · Protótipo</div>
+    <h2 class="section-title">Formulário — visão do cliente</h2>
+    <p class="section-desc">Interface multi-step com 6 etapas. Clique nas etapas para navegar entre os painéis.</p>
+
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-header-logo">H<span>WEB</span></div>
+        <span style="font-size:13px;color:rgba(255,255,255,.7)">Envio de Conteúdo do Site</span>
+        <span class="form-header-sub" id="fh-prop">Preencha os dados da sua propriedade</span>
+      </div>
+      <div class="form-progress-bar"><div class="form-progress-fill" id="fpbar" style="width:16%"></div></div>
+
+      <div class="form-body">
+        <!-- STEP PILLS -->
+        <div class="step-pills" id="step-pills">
+          <div class="step-pill" onclick="goStep(1)"><div class="pill-dot active" id="pd1">1</div><span class="pill-label active" id="pl1">Identificação</span></div>
+          <div class="pill-line" id="pline1"></div>
+          <div class="step-pill" onclick="goStep(2)"><div class="pill-dot" id="pd2">2</div><span class="pill-label" id="pl2">Contatos</span></div>
+          <div class="pill-line" id="pline2"></div>
+          <div class="step-pill" onclick="goStep(3)"><div class="pill-dot" id="pd3">3</div><span class="pill-label" id="pl3">Seções</span></div>
+          <div class="pill-line" id="pline3"></div>
+          <div class="step-pill" onclick="goStep(4)"><div class="pill-dot" id="pd4">4</div><span class="pill-label" id="pl4">Textos</span></div>
+          <div class="pill-line" id="pline4"></div>
+          <div class="step-pill" onclick="goStep(5)"><div class="pill-dot" id="pd5">5</div><span class="pill-label" id="pl5">Acomodações</span></div>
+          <div class="pill-line" id="pline5"></div>
+          <div class="step-pill" onclick="goStep(6)"><div class="pill-dot" id="pd6">6</div><span class="pill-label" id="pl6">Imagens</span></div>
+        </div>
+
+        <!-- PANEL 1 -->
+        <div class="form-panel active" id="fp1">
+          <div class="form-section-label">Etapa 1 de 6 — Identificação da propriedade</div>
+          <div class="f-group"><label class="f-label">Nome da propriedade <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Ex: Hotel Recanto das Pedras"></div>
+          <div class="f-group"><label class="f-label">Nome do responsável pelo envio <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Seu nome completo"></div>
+          <div class="f-group">
+            <label class="f-label">Logomarca <span class="f-req">*</span></label>
+            <div class="f-upload">
+              <div class="f-upload-icon">↑</div>
+              <div class="f-upload-text">Clique para enviar ou arraste o arquivo</div>
+              <div class="f-upload-sub">PNG, SVG ou JPEG · Fundo transparente recomendado · Máx. 10 MB · Melhor resolução possível</div>
+            </div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Manual de marca <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <div class="f-upload"><div class="f-upload-icon" style="font-size:16px">📄</div><div class="f-upload-text">PDF do manual de identidade visual</div></div>
+          </div>
+          <div class="form-nav"><span></span><span class="step-count">1 / 6</span><button class="btn-nav btn-next" onclick="goStep(2)">Próximo →</button></div>
+        </div>
+
+        <!-- PANEL 2 -->
+        <div class="form-panel" id="fp2">
+          <div class="form-section-label">Etapa 2 de 6 — Contatos e redes sociais</div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">Telefones da propriedade <span class="f-req">*</span></div>
+          <div id="contact-list"></div>
+          <button class="btn-add-acom" style="margin-bottom:20px" onclick="addContact()">+ Adicionar telefone / WhatsApp</button>
+          <div class="f-group"><label class="f-label">E-mail de contato <span class="f-req">*</span></label><input class="f-input" type="email" placeholder="contato@suapropriedade.com.br"><div class="f-hint">Este e-mail ficará visível para os hóspedes no site.</div></div>
+          <div class="f-group"><label class="f-label">Endereço completo <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Rua, número, bairro, complemento"></div>
+          <div style="display:grid;grid-template-columns:1fr 90px 150px;gap:14px">
+            <div class="f-group"><label class="f-label">Cidade <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Cidade"></div>
+            <div class="f-group"><label class="f-label">Estado <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="UF" maxlength="2" style="text-transform:uppercase"></div>
+            <div class="f-group"><label class="f-label">CEP <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label><input class="f-input" type="text" placeholder="00000-000"></div>
+          </div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:20px 0 12px">Redes sociais — adicione as que sua propriedade usa</div>
+          <div class="f-group"><label class="f-label">Instagram</label><input class="f-input" type="url" placeholder="https://www.instagram.com/suapousada"></div>
+          <div class="f-grid-2">
+            <div class="f-group"><label class="f-label">Facebook</label><input class="f-input" type="url" placeholder="https://facebook.com/..."></div>
+            <div class="f-group"><label class="f-label">TripAdvisor</label><input class="f-input" type="url" placeholder="Link do seu perfil"></div>
+          </div>
+          <div class="f-grid-2">
+            <div class="f-group"><label class="f-label">YouTube</label><input class="f-input" type="url" placeholder="https://youtube.com/..."></div>
+            <div class="f-group"><label class="f-label">TikTok</label><input class="f-input" type="url" placeholder="https://tiktok.com/@..."></div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Outra rede social <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <input class="f-input" type="url" placeholder="Ex: https://linkedin.com/company/... ou https://twitter.com/...">
+            <div class="f-hint">Para redes não listadas acima ou segunda conta — informe o nome da rede junto ao link no campo de observações da última etapa.</div>
+          </div>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(1)">← Voltar</button><span class="step-count">2 / 6</span><button class="btn-nav btn-next" onclick="goStep(3)">Próximo →</button></div>
+        </div>
+
+        <!-- PANEL 3 -->
+        <div class="form-panel" id="fp3">
+          <div class="form-section-label">Etapa 3 de 6 — Seções do site</div>
+          <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">Indique quais seções existem na sua propriedade. Os campos correspondentes serão solicitados nas etapas seguintes.</p>
+
+          <div class="f-toggle-row">
+            <div style="flex:1;min-width:0;margin-right:12px">
+              <input class="section-name-input" type="text" value="Restaurante / Gastronomia" placeholder="Nome da seção" oninput="updateSectionName('rest', this.value)">
+              <div class="f-toggle-sub" style="margin-top:3px">Área de refeições, café da manhã ou bar</div>
+            </div>
+            <button class="f-toggle on" id="tog-rest" onclick="toggleSection('rest', this)"></button>
+          </div>
+          <div class="f-toggle-row">
+            <div style="flex:1;min-width:0;margin-right:12px">
+              <input class="section-name-input" type="text" value="Sala de eventos" placeholder="Nome da seção" oninput="updateSectionName('event', this.value)">
+              <div class="f-toggle-sub" style="margin-top:3px">Espaço para eventos, reuniões ou casamentos</div>
+            </div>
+            <button class="f-toggle" id="tog-event" onclick="toggleSection('event', this)"></button>
+          </div>
+          <div class="f-toggle-row">
+            <div style="flex:1;min-width:0;margin-right:12px">
+              <input class="section-name-input" type="text" value="Área de lazer" placeholder="Nome da seção" oninput="updateSectionName('lazer', this.value)">
+              <div class="f-toggle-sub" style="margin-top:3px">Piscina, spa, churrasqueira, quadras, etc.</div>
+            </div>
+            <button class="f-toggle" id="tog-lazer" onclick="toggleSection('lazer', this)"></button>
+          </div>
+          <div class="f-toggle-row">
+            <div style="flex:1;min-width:0;margin-right:12px">
+              <input class="section-name-input" type="text" value="Destino / entorno" placeholder="Nome da seção" oninput="updateSectionName('dest', this.value)">
+              <div class="f-toggle-sub" style="margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                Pontos turísticos, trilhas, cachoeiras próximas
+                <span style="font-size:10px;background:var(--warn-bg);color:var(--warn);padding:1px 7px;border-radius:10px;font-weight:600;border:1px solid var(--warn-border)">Recomendado — SEO</span>
+              </div>
+            </div>
+            <button class="f-toggle on" id="tog-dest" onclick="toggleSection('dest', this)"></button>
+          </div>
+
+          <div id="section-list"></div>
+          <button class="btn-add-acom" onclick="addSection()">+ Adicionar seção</button>
+
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(2)">← Voltar</button><span class="step-count">3 / 6</span><button class="btn-nav btn-next" onclick="goStep(4)">Próximo →</button></div>
+        </div>
+
+        <!-- PANEL 4 -->
+        <div class="form-panel" id="fp4">
+          <div class="form-section-label">Etapa 4 de 6 — Textos do site</div>
+          <div class="f-group"><label class="f-label">Sobre a propriedade <span class="f-req">*</span></label><textarea class="f-input" placeholder="Descreva sua propriedade: história, diferenciais, o que torna a experiência especial..."></textarea><div class="f-hint">Referências em sites.hsystem.com.br</div></div>
+          <div class="f-group"><label class="f-label">Serviços e comodidades <span class="f-req">*</span></label><textarea class="f-input" placeholder="Wi-Fi, estacionamento, café da manhã incluso, serviços disponíveis..."></textarea></div>
+          <div class="f-group"><label class="f-label">Localização e região <span class="f-req">*</span></label><textarea class="f-input" placeholder="Descreva a região, como chegar, o que há por perto..."></textarea></div>
+          <div id="cond-dest-text">
+            <div class="f-group">
+              <label class="f-label">Pontos turísticos próximos <span class="f-req">*</span> <span style="font-size:12px;font-weight:400;color:var(--ink3)">(mínimo 3)</span></label>
+              <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:6px">
+                <div style="font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:10px">Ponto turístico 1</div>
+                <div class="f-group"><label class="f-label" style="font-size:12px">Nome <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Ex: Cachoeira das Pedras Brancas"></div>
+                <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:12px">Descrição <span class="f-req">*</span></label><textarea class="f-input" style="min-height:60px" placeholder="Distância, como chegar, o que ver..."></textarea></div>
+              </div>
+              <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px">
+                <div style="font-size:12px;font-weight:600;color:var(--ink3);margin-bottom:10px">Ponto turístico 2</div>
+                <div class="f-group"><label class="f-label" style="font-size:12px">Nome <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Ex: Parque Nacional do Caparaó"></div>
+                <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:12px">Descrição <span class="f-req">*</span></label><textarea class="f-input" style="min-height:60px" placeholder="Distância, como chegar, o que ver..."></textarea></div>
+              </div>
+            </div>
+          </div>
+          <div id="cond-rest-text" style="display:block">
+            <div class="f-group">
+              <label class="f-label"><span data-section-label="rest">Gastronomia / Restaurante</span></label>
+              <textarea class="f-input" placeholder="Descreva o restaurante, cardápio, horários..."></textarea>
+              <input class="f-input" type="url" placeholder="Link do YouTube (opcional) — vídeo do restaurante ou gastronomia" style="margin-top:8px;font-size:12px">
+            </div>
+          </div>
+          <div id="cond-event-text" style="display:none">
+            <div class="f-group">
+              <label class="f-label"><span data-section-label="event">Espaço para eventos</span></label>
+              <textarea class="f-input" placeholder="Capacidade, estrutura, tipos de eventos realizados..."></textarea>
+              <input class="f-input" type="url" placeholder="Link do YouTube (opcional) — vídeo do espaço ou de um evento realizado" style="margin-top:8px;font-size:12px">
+            </div>
+          </div>
+          <div id="cond-lazer-text" style="display:none">
+            <div class="f-group">
+              <label class="f-label"><span data-section-label="lazer">Área de lazer</span></label>
+              <textarea class="f-input" placeholder="Piscina, trilhas, atividades ao ar livre..."></textarea>
+              <input class="f-input" type="url" placeholder="Link do YouTube (opcional) — vídeo da área de lazer" style="margin-top:8px;font-size:12px">
+            </div>
+          </div>
+          <div id="cond-extra-texts"></div>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(3)">← Voltar</button><span class="step-count">4 / 6</span><button class="btn-nav btn-next" onclick="goStep(5)">Próximo →</button></div>
+        </div>
+
+        <!-- PANEL 5 -->
+        <div class="form-panel" id="fp5">
+          <div class="form-section-label">Etapa 5 de 6 — Acomodações</div>
+          <div class="warn-hbook">
+            <strong>⚠ Mantenha as categorias idênticas às do seu motor de reservas</strong>
+            Os nomes e a quantidade de categorias aqui devem ser os mesmos cadastrados no HBOOK. Isso garante que o hóspede veja as mesmas opções no site e na reserva, sem confusão.
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <span style="font-size:13px;font-weight:600;color:var(--ink)">Categorias cadastradas <span id="acom-count" style="font-size:12px;background:var(--accent-bg);color:var(--accent);padding:2px 10px;border-radius:20px;font-weight:600;margin-left:6px">1</span></span>
+          </div>
+          <div id="acom-list"></div>
+          <button class="btn-add-acom" onclick="addAcom()">+ Adicionar categoria</button>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(4)">← Voltar</button><span class="step-count">5 / 6</span><button class="btn-nav btn-next" onclick="goStep(6)">Próximo →</button></div>
+        </div>
+
+        <!-- PANEL 6 -->
+        <div class="form-panel" id="fp6">
+          <div class="form-section-label">Etapa 6 de 6 — Imagens gerais</div>
+          <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">Quanto mais fotos e melhor a qualidade, mais bonito ficará o site. Mínimo 1200×800px por imagem.</p>
+          <div class="f-group"><label class="f-label">Fachada e áreas gerais <span class="f-req">*</span></label><div class="f-upload"><div class="f-upload-icon">🏨</div><div class="f-upload-text">Fotos da propriedade</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div></div></div>
+          <div class="f-group" id="cond-rest-img"><label class="f-label"><span data-section-label="rest">Restaurante / Gastronomia</span></label><div class="f-upload"><div class="f-upload-icon">🍽</div><div class="f-upload-text">Restaurante, pratos, ambiente</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div></div></div>
+          <div class="f-group" id="cond-event-img" style="display:none"><label class="f-label"><span data-section-label="event">Sala de eventos</span></label><div class="f-upload"><div class="f-upload-icon">🎪</div><div class="f-upload-text">Salão e estrutura de eventos</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div></div></div>
+          <div class="f-group" id="cond-lazer-img" style="display:none"><label class="f-label"><span data-section-label="lazer">Área de lazer</span></label><div class="f-upload"><div class="f-upload-icon">🏊</div><div class="f-upload-text">Piscina, espaços externos, atividades</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div></div></div>
+          <div class="f-group" id="cond-dest-img"><label class="f-label"><span data-section-label="dest">Destino / entorno</span></label><div class="f-upload"><div class="f-upload-icon">🌄</div><div class="f-upload-text">Pontos turísticos e paisagens da região</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div></div></div>
+          <div id="cond-extra-imgs"></div>
+          <div class="f-group"><label class="f-label">Política LGPD <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label><div class="f-upload"><div class="f-upload-icon">📋</div><div class="f-upload-text">PDF com política de privacidade</div></div></div>
+          <div class="f-group">
+            <label class="f-label">Vídeo do banner <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <input class="f-input" type="url" placeholder="Link do Google Drive, Dropbox ou OneDrive com o arquivo de vídeo">
+            <div class="f-hint">Para usar como vídeo de fundo no banner do site, envie o arquivo de vídeo (MP4 recomendado) pelo Google Drive, Dropbox ou OneDrive. Configure o compartilhamento para <strong>"qualquer pessoa com o link"</strong> e cole o link aqui — não é necessário ser público para download direto.</div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Observações gerais <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <textarea class="f-input" placeholder="Informações adicionais, segunda rede social, dúvidas ou qualquer conteúdo que não se encaixe nos campos acima..."></textarea>
+          </div>
+          <div class="terms-box">
+            <label>
+              <input type="checkbox" id="terms-check" onchange="toggleSubmit()">
+              <span>Declaro que estou ciente de que todo o conteúdo enviado neste formulário — textos, imagens e demais arquivos — é de minha responsabilidade. Confirmo que possuo direitos de uso sobre os materiais fornecidos e autorizo a HSystem a utilizá-los exclusivamente para a produção do site contratado. A HSystem não se responsabiliza por questões relacionadas à titularidade ou direitos de imagem dos arquivos encaminhados.</span>
+            </label>
+          </div>
+          <div style="background:var(--teal-bg);border:1px solid rgba(26,107,90,.2);border-radius:var(--radius);padding:20px;text-align:center;margin-top:8px">
+            <div style="font-size:22px;margin-bottom:8px">✓</div>
+            <div style="font-size:15px;font-weight:600;color:var(--teal);margin-bottom:6px">Tudo pronto para enviar</div>
+            <div style="font-size:13px;color:var(--teal);opacity:.8;margin-bottom:16px">Nossa equipe revisará as informações e entrará em contato em até 2 dias úteis.</div>
+            <button class="btn-nav btn-next" id="btn-submit" style="margin:0 auto;padding:12px 32px" disabled>Enviar conteúdo</button>
+          </div>
+          <div class="form-nav" style="padding-top:16px"><button class="btn-nav btn-back" onclick="goStep(5)">← Voltar</button><span class="step-count">6 / 6</span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- API DUDA -->
+<section id="api">
+  <div class="container">
+    <div class="section-eyebrow">05 · Integração</div>
+    <h2 class="section-title">API Duda — especificação técnica</h2>
+    <p class="section-desc">Sequência de 4 chamadas executadas pelo backend após o cliente submeter o formulário. Autenticação Basic em todas as requisições.</p>
+
+    <div class="info-box" style="margin-bottom:28px">
+      <span style="font-size:16px">ℹ</span>
+      <span>Base URL: <code style="font-family:'JetBrains Mono',monospace;font-size:12px">https://api.duda.co/api/sites/multiscreen/{site_name}</code> · Autenticação: <code style="font-family:'JetBrains Mono',monospace;font-size:12px">Authorization: Basic base64(user:password)</code></span>
+    </div>
+
+    <!-- CALL 1 -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/content</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 1 — Textos e contatos</span>
+      </div>
+      <div class="code-block"><span class="c">// Business data, location, social accounts e site_texts em uma única chamada</span>
+{
+  <span class="k">"business_data"</span>: { <span class="k">"name"</span>: <span class="s">"Nome da Propriedade"</span> },
+  <span class="k">"location_data"</span>: {
+    <span class="k">"phones"</span>: [
+      { <span class="k">"phoneNumber"</span>: <span class="s">"(00) 00000-0000"</span>, <span class="k">"label"</span>: <span class="s">"Telefone"</span> },
+      { <span class="k">"phoneNumber"</span>: <span class="s">"(00) 00000-0000"</span>, <span class="k">"label"</span>: <span class="s">"WhatsApp"</span> }
+    ],
+    <span class="k">"emails"</span>: [{ <span class="k">"emailAddress"</span>: <span class="s">"contato@exemplo.com"</span>, <span class="k">"label"</span>: <span class="s">"Contato"</span> }],
+    <span class="k">"address"</span>: {
+      <span class="k">"streetAddress"</span>: <span class="s">"Rua Exemplo, 123"</span>,
+      <span class="k">"city"</span>: <span class="s">"Cidade"</span>, <span class="k">"region"</span>: <span class="s">"UF"</span>,
+      <span class="k">"postalCode"</span>: <span class="s">"00000-000"</span>, <span class="k">"country"</span>: <span class="s">"BR"</span>
+    },
+    <span class="k">"social_accounts"</span>: {
+      <span class="k">"instagram"</span>: <span class="s">"handle"</span>, <span class="k">"facebook"</span>: <span class="s">"handle"</span>,
+      <span class="k">"tripadvisor"</span>: <span class="s">"url-slug"</span>, <span class="k">"youtube"</span>: <span class="s">"channel-id"</span>
+    }
+  },
+  <span class="k">"site_texts"</span>: {
+    <span class="k">"about_us"</span>: <span class="s">"Texto sobre a propriedade..."</span>,
+    <span class="k">"services"</span>: <span class="s">"Serviços e comodidades..."</span>,
+    <span class="k">"custom"</span>: [
+      { <span class="k">"label"</span>: <span class="s">"localizacao"</span>,     <span class="k">"text"</span>: <span class="s">"Texto da região..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"gastronomia"</span>,    <span class="k">"text"</span>: <span class="s">"Texto do restaurante..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"lazer"</span>,          <span class="k">"text"</span>: <span class="s">"Texto de lazer..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"eventos"</span>,        <span class="k">"text"</span>: <span class="s">"Texto de eventos..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_nome_1"</span>,    <span class="k">"text"</span>: <span class="s">"Golden"</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_desc_1"</span>,    <span class="k">"text"</span>: <span class="s">"Descrição da categoria..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_items_1"</span>,   <span class="k">"text"</span>: <span class="s">"Cama king, Hidromassagem, Wi-Fi..."</span> }
+    ]
+  }
+}</div>
+    </div>
+
+    <!-- CALL 2 -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/resources/upload</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 2 — Upload da logo</span>
+      </div>
+      <div class="code-block"><span class="c">// Passo 1: backend envia o arquivo para storage HSystem → obtém URL pública</span>
+<span class="c">// Passo 2: POST /resources/upload com a URL (a API não aceita binário direto)</span>
+[
+  {
+    <span class="k">"src"</span>: <span class="s">"https://storage.hsystem.com.br/uploads/logo.png"</span>,
+    <span class="k">"resource_type"</span>: <span class="s">"IMAGE"</span>
+  }
+]
+
+<span class="c">// Resposta correta (campo é uploaded_resources[].new_url — não n_urls):</span>
+{
+  <span class="k">"n_failures"</span>: <span class="m">0</span>,
+  <span class="k">"uploaded_resources"</span>: [
+    {
+      <span class="k">"original_url"</span>: <span class="s">"https://storage.hsystem.com.br/uploads/logo.png"</span>,
+      <span class="k">"new_url"</span>:      <span class="s">"https://irp.cdn-website.com/.../logo.png"</span>,
+      <span class="k">"status"</span>:       <span class="s">"UPLOADED"</span>
+    }
+  ]
+}
+
+<span class="c">// Em seguida, POST /content para atualizar logo_url:</span>
+{ <span class="k">"business_data"</span>: { <span class="k">"logo_url"</span>: <span class="s">"https://irp.cdn-website.com/.../logo.png"</span> } }</div>
+    </div>
+
+    <!-- CALL 3 -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/resources/upload + /content</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 3 — Imagens em lote por categoria</span>
+      </div>
+      <div class="code-block"><span class="c">// Para cada categoria: upload → obter URL → adicionar em site_images</span>
+<span class="c">// O label define a "pasta" que o analista verá no editor</span>
+
+POST <span class="n">/content</span>
+{
+  <span class="k">"site_images"</span>: [
+    { <span class="k">"label"</span>: <span class="s">"Fotos da Propriedade"</span>, <span class="k">"url"</span>: <span class="s">"https://cdn.../img1.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> },
+    { <span class="k">"label"</span>: <span class="s">"Acomodações/Golden"</span>,   <span class="k">"url"</span>: <span class="s">"https://cdn.../img2.jpg"</span>, <span class="k">"alt"</span>: <span class="s">"Suíte Golden"</span> },
+    { <span class="k">"label"</span>: <span class="s">"Acomodações/Lake"</span>,     <span class="k">"url"</span>: <span class="s">"https://cdn.../img3.jpg"</span>, <span class="k">"alt"</span>: <span class="s">"Suíte Lake"</span> },
+    { <span class="k">"label"</span>: <span class="s">"Gastronomia"</span>,          <span class="k">"url"</span>: <span class="s">"https://cdn.../img4.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> },
+    { <span class="k">"label"</span>: <span class="s">"Destino"</span>,              <span class="k">"url"</span>: <span class="s">"https://cdn.../img5.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> }
+  ]
+}
+
+<span class="c">// ⚠ O Duda não cria pastas via API — o label é a organização visual no editor</span>
+<span class="c">// ⚠ Máximo 10 recursos por chamada — processar imagens em lotes de 10 com await entre cada lote</span>
+<span class="c">// ⚠ label tem limite de 80 chars — garantir que "Acomodações/" + nome_categoria não ultrapasse</span></div>
+    </div>
+
+    <!-- CALL 4 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#E8EFF8;color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">INT</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">sistema HSystem</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 4 — Notificação interna</span>
+      </div>
+      <div class="code-block"><span class="c">// Após todas as chamadas Duda concluídas com sucesso</span>
+{
+  <span class="k">"propriedade"</span>:   <span class="s">"Nome da Propriedade"</span>,
+  <span class="k">"site_name"</span>:     <span class="s">"duda-site-id"</span>,
+  <span class="k">"duda_url"</span>:      <span class="s">"https://my.duda.co/home/sites/duda-site-id"</span>,
+  <span class="k">"status"</span>:        <span class="s">"aguardando_revisao"</span>,
+  <span class="k">"secoes"</span>:        [<span class="s">"gastronomia"</span>, <span class="s">"destino"</span>],
+  <span class="k">"n_categorias"</span>:  <span class="m">3</span>,
+  <span class="k">"n_imagens"</span>:     <span class="m">24</span>,
+  <span class="k">"timestamp"</span>:     <span class="s">"2026-06-04T14:30:00Z"</span>
+}
+
+<span class="c">// Status possíveis: aguardando_revisao → aprovado / pendencias / reprovado</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEV HANDOFF -->
+<section id="dev">
+  <div class="container">
+    <div class="section-eyebrow">06 · Dev Handoff</div>
+    <h2 class="section-title">O que o desenvolvimento precisa implementar</h2>
+    <p class="section-desc">Checklist completo de requisitos funcionais, regras de validação e comportamentos esperados para a construção do formulário e backend.</p>
+
+    <div style="overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:28px">
+      <table class="data-table">
+        <thead><tr><th>Campo</th><th>Destino API Duda</th><th>Validação</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nome da propriedade</strong></td><td><code class="code-inline">business_data.name</code></td><td>Obrigatório · max 100 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Logomarca</strong></td><td><code class="code-inline">business_data.logo_url</code></td><td>PNG/SVG · mín 300px largura</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Telefone</strong></td><td><code class="code-inline">location_data.phones[0]</code></td><td>Formato BR válido</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>WhatsApp</strong></td><td><code class="code-inline">location_data.phones[1]</code></td><td>Formato BR válido</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>E-mail</strong></td><td><code class="code-inline">location_data.emails[0]</code></td><td>Formato e-mail válido</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Endereço / cidade / estado / CEP</strong></td><td><code class="code-inline">location_data.address</code></td><td>Todos obrigatórios</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Redes sociais</strong></td><td><code class="code-inline">social_accounts.*</code></td><td>URL válida se preenchida</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Sobre a propriedade</strong></td><td><code class="code-inline">site_texts.about_us</code></td><td>Mín 100 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Serviços</strong></td><td><code class="code-inline">site_texts.services</code></td><td>Mín 50 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Localização / região</strong></td><td><code class="code-inline">site_texts.custom[localizacao]</code></td><td>Mín 80 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Pontos turísticos (mín 3)</strong></td><td><code class="code-inline">site_texts.custom[pontos_turisticos]</code></td><td>Nome + descrição por item · mín 3</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Gastronomia</strong></td><td><code class="code-inline">site_texts.custom[gastronomia]</code></td><td>Visível se toggle ativo</td><td><span class="badge badge-cond">Condicional</span></td></tr>
+          <tr><td><strong>Eventos</strong></td><td><code class="code-inline">site_texts.custom[eventos]</code></td><td>Visível se toggle ativo</td><td><span class="badge badge-cond">Condicional</span></td></tr>
+          <tr><td><strong>Lazer</strong></td><td><code class="code-inline">site_texts.custom[lazer]</code></td><td>Visível se toggle ativo</td><td><span class="badge badge-cond">Condicional</span></td></tr>
+          <tr><td><strong>Categorias de acomodação</strong></td><td><code class="code-inline">site_texts.custom[acom_*]</code></td><td>Mín 1 · sem limite máximo · nome, desc e comodidades obrigatórios por categoria</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos por categoria</strong></td><td><code class="code-inline">site_images (label=Acomodações/[nome])</code></td><td>JPG/PNG · mín 1200×800px · mín 5 por categoria</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos gerais da propriedade</strong></td><td><code class="code-inline">site_images (label=Fotos da Propriedade)</code></td><td>JPG/PNG · mín 1200×800px</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos seções condicionais</strong></td><td><code class="code-inline">site_images (label=[secao])</code></td><td>Visíveis conforme toggles do step 3</td><td><span class="badge badge-cond">Condicional</span></td></tr>
+          <tr><td><strong>Link de vídeo</strong></td><td>Campo de observações / inserção manual no editor</td><td>URL válida (YouTube ou Vimeo) · upload direto não suportado pela API</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Observações gerais</strong></td><td>Armazenado no HSystem · exibido na notificação ao analista</td><td>Texto livre</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Termo de responsabilidade</strong></td><td>Registro no HSystem (checkbox marcado = aceito)</td><td>Obrigatório antes de habilitar envio</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>PDF LGPD / manual de marca</strong></td><td>Armazenado fora do Duda (storage HSystem)</td><td>PDF · max 20MB</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Frontend — requisitos</div>
+        <div style="font-size:13px;color:var(--ink2);line-height:1.7">
+          <div style="margin-bottom:6px">✓ Multi-step com 6 etapas + progress bar</div>
+          <div style="margin-bottom:6px">✓ Validação em tempo real por campo (blur)</div>
+          <div style="margin-bottom:6px">✓ Validação de dimensão de imagem antes do upload (FileReader API)</div>
+          <div style="margin-bottom:6px">✓ Lógica condicional: campos aparecem conforme toggles do step 3</div>
+          <div style="margin-bottom:6px">✓ Categorias de acomodação dinâmicas (sem limite, renumeração automática)</div>
+          <div style="margin-bottom:6px">✓ Bloqueio de avanço se campos obrigatórios não preenchidos</div>
+          <div style="margin-bottom:6px">✓ Suporte a CDR convertido (cliente deve enviar como PNG/JPG)</div>
+          <div style="margin-bottom:6px">✓ Múltiplos telefones/WhatsApp dinâmicos (mín. 1 obrigatório)</div>
+          <div style="margin-bottom:6px">✓ Nomes de seções editáveis pelo analista (Etapa 3)</div>
+          <div style="margin-bottom:6px">✓ Botão "Enviar conteúdo" bloqueado até termo de responsabilidade marcado</div>
+          <div>✓ Responsivo para mobile</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Backend — requisitos</div>
+        <div style="font-size:13px;color:var(--ink2);line-height:1.7">
+          <div style="margin-bottom:6px">✓ Recebe payload multipart/form-data (textos + arquivos)</div>
+          <div style="margin-bottom:6px">✓ Valida integridade antes de chamar a API Duda</div>
+          <div style="margin-bottom:6px">✓ Sequência de chamadas: content → upload logo → upload imagens → site_images</div>
+          <div style="margin-bottom:6px">✓ Retry automático: 3 tentativas com backoff exponencial por chamada</div>
+          <div style="margin-bottom:6px">✓ Log estruturado por propriedade (site_name + timestamp + status por etapa)</div>
+          <div style="margin-bottom:6px">✓ Notificação ao analista após conclusão (e-mail ou webhook interno)</div>
+          <div style="margin-bottom:6px">✓ Credenciais Duda apenas em variáveis de ambiente (.env)</div>
+          <div style="margin-bottom:6px">✓ Rate limit Duda: respeitar 100 req/min — processar imagens em fila</div>
+          <div style="margin-bottom:6px">✓ Upload em lotes de máx. 10 recursos/chamada (limite da API)</div>
+          <div style="margin-bottom:6px">✓ Storage intermediário: arquivos enviados ao HSystem antes do upload para o Duda (API aceita src URL, não binário direto)</div>
+          <div style="margin-bottom:6px">✓ Resposta de upload: ler <code class="code-inline">uploaded_resources[].new_url</code> (não <code class="code-inline">n_urls</code>)</div>
+          <div>✓ label de site_images: máx. 80 chars — truncar se necessário</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:20px">
+      <span class="warn-icon">⚠</span>
+      <div><strong>Atenção sobre CDR (CorelDraw):</strong> O Duda não aceita arquivos .CDR. O formulário deve orientar o cliente a exportar logos em PNG ou SVG antes do envio. Incluir mensagem explicativa no campo de upload da logo.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>HSystem · CS Onboarding — Squad HWEB</strong><br>
+  Documento de especificação · HWEB Formulário de Coleta de Conteúdo · Versão 1.0 · Junho 2026
+</footer>
+
+<script>
+  let currentStep = 1;
+  const TOTAL = 6;
+  let acomCount = 0;
+  let contactCount = 0;
+  const comodidades = ['Wi-Fi','Ar-condicionado','TV','Frigobar','Hidromassagem','Sacada/Varanda','Vista para jardim','Vista para piscina','Café da manhã incluso','Cama king size','Cama queen size','Cama casal','Banheira','Rooftop privativo','Churrasqueira'];
+  const contactTypes = ['Telefone da propriedade','WhatsApp da propriedade','Telefone reservas','WhatsApp reservas','Outro'];
+
+  function goStep(n) {
+    document.getElementById('fp' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('fp' + n).classList.add('active');
+    document.getElementById('fpbar').style.width = Math.round((n / TOTAL) * 100) + '%';
+    for (let i = 1; i <= TOTAL; i++) {
+      const dot = document.getElementById('pd' + i);
+      const lbl = document.getElementById('pl' + i);
+      if (i < n) {
+        dot.textContent = '✓'; dot.className = 'pill-dot done';
+        lbl.className = 'pill-label done';
+      } else if (i === n) {
+        dot.textContent = i; dot.className = 'pill-dot active';
+        lbl.className = 'pill-label active';
+      } else {
+        dot.textContent = i; dot.className = 'pill-dot';
+        lbl.className = 'pill-label';
+      }
+      if (i < TOTAL) {
+        const line = document.getElementById('pline' + i);
+        if (line) line.className = 'pill-line' + (i < n ? ' done' : '');
+      }
+    }
+    document.getElementById('fp' + n).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function addAcom() {
+    acomCount++;
+    const list = document.getElementById('acom-list');
+    const div = document.createElement('div');
+    div.className = 'acom-card';
+    div.id = 'ac' + acomCount;
+    div.innerHTML = `
+      <div class="acom-card-header">
+        <span class="acom-card-title">Categoria ${acomCount}</span>
+        <button class="btn-remove-acom" onclick="removeAcom('ac${acomCount}')">✕ Remover</button>
+      </div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Nome da categoria <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Use o mesmo nome cadastrado no HBOOK"></div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Descrição <span class="f-req">*</span></label><textarea class="f-input" style="min-height:70px" placeholder="Descreva o diferencial desta categoria para o hóspede..."></textarea></div>
+      <div class="f-group">
+        <label class="f-label" style="font-size:12px">Comodidades <span class="f-req">*</span></label>
+        <div class="tag-row">${comodidades.map(c => `<span class="f-tag" onclick="this.classList.toggle('sel')">${c}</span>`).join('')}</div>
+        <input class="f-input" type="text" placeholder="Outras comodidades (separe por vírgula)" style="margin-top:6px">
+      </div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Vídeo da categoria <span style="color:var(--ink3);font-weight:400">(opcional — YouTube)</span></label><input class="f-input" type="url" placeholder="https://youtube.com/watch?v=... — vídeo do quarto ou desta categoria" style="font-size:12px"><div class="f-hint" style="font-size:11px">Se tiver um vídeo desta categoria no YouTube, cole o link aqui. O analista o utilizará na produção do site.</div></div>
+      <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:12px">Fotos desta categoria <span class="f-req">*</span></label><div class="f-upload"><div class="f-upload-icon">↑</div><div class="f-upload-text">Enviar fotos da categoria</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Mín. 5 fotos · Máx. 10 MB por foto</div></div></div>
+    `;
+    list.appendChild(div);
+    updateAcomCount();
+    div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function removeAcom(id) {
+    const cards = document.querySelectorAll('.acom-card');
+    if (cards.length <= 1) {
+      const el = document.getElementById(id);
+      el.style.outline = '2px solid rgba(196,86,26,.4)';
+      setTimeout(() => el.style.outline = '', 1500);
+      return;
+    }
+    document.getElementById(id).remove();
+    renumberAcom();
+    updateAcomCount();
+  }
+
+  function renumberAcom() {
+    document.querySelectorAll('.acom-card').forEach((c, i) => {
+      const t = c.querySelector('.acom-card-title');
+      if (t) t.textContent = 'Categoria ' + (i + 1);
+    });
+  }
+
+  function updateAcomCount() {
+    const n = document.querySelectorAll('.acom-card').length;
+    document.getElementById('acom-count').textContent = n;
+  }
+
+  // SECTIONS
+  let sectionCount = 0;
+
+  function toggleSection(key, btn) {
+    btn.classList.toggle('on');
+    const isOn = btn.classList.contains('on');
+    const textDiv = document.getElementById('cond-' + key + '-text');
+    const imgDiv  = document.getElementById('cond-' + key + '-img');
+    if (textDiv) textDiv.style.display = isOn ? 'block' : 'none';
+    if (imgDiv)  imgDiv.style.display  = isOn ? ''      : 'none';
+  }
+
+  function updateSectionName(key, value) {
+    const name = value.trim() || 'Nova seção';
+    document.querySelectorAll('[data-section-label="' + key + '"]').forEach(el => {
+      el.textContent = name;
+    });
+  }
+
+  function addSection() {
+    sectionCount++;
+    const key  = 'sec' + sectionCount;
+    const name = 'Nova seção ' + sectionCount;
+
+    // Toggle row em Etapa 3
+    const row = document.createElement('div');
+    row.className = 'f-toggle-row';
+    row.id = 'sec-row-' + key;
+    row.style.cssText = 'align-items:flex-start;gap:8px';
+    row.innerHTML = `
+      <div style="flex:1;min-width:0;margin-right:4px">
+        <input class="section-name-input" type="text" value="${name}" placeholder="Nome da seção"
+               oninput="updateSectionName('${key}', this.value)">
+        <div class="f-toggle-sub" style="margin-top:3px">Descreva brevemente o conteúdo desta seção</div>
+      </div>
+      <button class="f-toggle on" id="tog-${key}" onclick="toggleSection('${key}', this)" style="flex-shrink:0;margin-top:4px"></button>
+      <button class="btn-remove-acom" onclick="removeSection('${key}')" style="flex-shrink:0;margin-top:2px">✕ Remover</button>
+    `;
+    document.getElementById('section-list').appendChild(row);
+
+    // Campo de texto em Etapa 4
+    const textDiv = document.createElement('div');
+    textDiv.id = 'cond-' + key + '-text';
+    textDiv.innerHTML = `
+      <div class="f-group">
+        <label class="f-label"><span data-section-label="${key}">${name}</span></label>
+        <textarea class="f-input" placeholder="Descreva esta seção..."></textarea>
+        <input class="f-input" type="url" placeholder="Link do YouTube (opcional) — vídeo relacionado a esta seção"
+               style="margin-top:8px;font-size:12px">
+      </div>
+    `;
+    document.getElementById('cond-extra-texts').appendChild(textDiv);
+
+    // Campo de imagem em Etapa 6
+    const imgDiv = document.createElement('div');
+    imgDiv.className = 'f-group';
+    imgDiv.id = 'cond-' + key + '-img';
+    imgDiv.innerHTML = `
+      <label class="f-label"><span data-section-label="${key}">${name}</span></label>
+      <div class="f-upload">
+        <div class="f-upload-icon">📷</div>
+        <div class="f-upload-text">Fotos desta seção</div>
+        <div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto</div>
+      </div>
+    `;
+    document.getElementById('cond-extra-imgs').appendChild(imgDiv);
+
+    row.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function removeSection(key) {
+    ['sec-row-' + key, 'cond-' + key + '-text', 'cond-' + key + '-img'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+  }
+
+  // CONTACTS
+  function addContact(defaultType) {
+    contactCount++;
+    const list = document.getElementById('contact-list');
+    const div = document.createElement('div');
+    div.className = 'contact-item';
+    div.id = 'ct' + contactCount;
+    const typeOptions = contactTypes.map(t =>
+      `<option value="${t}"${t === defaultType ? ' selected' : ''}>${t}</option>`
+    ).join('');
+    div.innerHTML = `
+      <div class="f-group" style="margin-bottom:0">
+        <label class="f-label" style="font-size:11px">Tipo</label>
+        <select class="f-input" style="padding:8px 10px">
+          ${typeOptions}
+        </select>
+      </div>
+      <div class="f-group" style="margin-bottom:0">
+        <label class="f-label" style="font-size:11px">Número <span class="f-req">*</span></label>
+        <input class="f-input" type="tel" placeholder="(00) 00000-0000">
+      </div>
+      <button class="btn-remove-contact" onclick="removeContact('ct${contactCount}')" title="Remover">✕</button>
+    `;
+    list.appendChild(div);
+    updateContactMin();
+  }
+
+  function removeContact(id) {
+    const items = document.querySelectorAll('.contact-item');
+    if (items.length <= 1) {
+      const el = document.getElementById(id);
+      el.style.outline = '2px solid rgba(196,86,26,.4)';
+      setTimeout(() => el.style.outline = '', 1500);
+      return;
+    }
+    document.getElementById(id).remove();
+    updateContactMin();
+  }
+
+  function updateContactMin() {
+    const btns = document.querySelectorAll('.btn-remove-contact');
+    btns.forEach(b => b.style.visibility = btns.length <= 1 ? 'hidden' : 'visible');
+  }
+
+  // TERMS CHECKBOX
+  function toggleSubmit() {
+    const checked = document.getElementById('terms-check').checked;
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = !checked;
+  }
+
+  // nav highlight on scroll
+  const sections = document.querySelectorAll('section[id], .hero');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id || 'contexto'; });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  addAcom();
+  addContact('Telefone da propriedade');
+  addContact('WhatsApp da propriedade');
+  updateContactMin();
+</script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HWEB — Formulário Combo Starter</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F3EE; --surface: #FAFAF7; --surface2: #EFEDE7;
+    --ink: #1A1916; --ink2: #4A4840; --ink3: #8A8780;
+    --accent: #C4561A; --accent2: #E8A87C; --accent-bg: #FDF1E8;
+    --teal: #1A6B5A; --teal-bg: #E8F4F0;
+    --blue: #1A3C6B; --blue-bg: #E8EFF8;
+    --warn: #8A6800; --warn-bg: #FFF8E0; --warn-border: #E8C840;
+    --border: rgba(26,25,22,0.10); --border2: rgba(26,25,22,0.18);
+    --radius: 10px; --radius-lg: 16px;
+    --shadow: 0 2px 12px rgba(26,25,22,0.07);
+    --shadow-lg: 0 8px 40px rgba(26,25,22,0.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.65; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(245,243,238,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; height: 56px; }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--ink); margin-right: 40px; white-space: nowrap; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 0; flex: 1; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--ink3); text-decoration: none; padding: 0 14px; height: 56px; display: flex; align-items: center; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--ink); border-bottom-color: var(--accent2); }
+  .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-badge { margin-left: auto; font-size: 11px; font-weight: 600; background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 20px; letter-spacing: .04em; text-transform: uppercase; }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+  section { padding: 72px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  /* HERO */
+  .hero { padding: 80px 0 64px; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); background: var(--accent-bg); border: 1px solid rgba(196,86,26,.15); padding: 4px 12px; border-radius: 20px; margin-bottom: 24px; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 5vw, 48px); line-height: 1.12; color: var(--ink); margin-bottom: 20px; max-width: 680px; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc { font-size: 16px; color: var(--ink2); max-width: 580px; margin-bottom: 36px; line-height: 1.7; }
+  .hero-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); }
+  .meta-value { font-size: 14px; font-weight: 500; color: var(--ink); }
+
+  .pages-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
+  .page-chip { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 500; color: var(--ink2); }
+  .page-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .page-chip.extra { border-style: dashed; color: var(--ink3); }
+  .page-chip.extra .dot { background: var(--ink3); }
+
+  /* SECTION HEADERS */
+  .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 3.5vw, 34px); line-height: 1.15; color: var(--ink); margin-bottom: 12px; }
+  .section-desc { font-size: 15px; color: var(--ink2); max-width: 600px; line-height: 1.7; margin-bottom: 40px; }
+
+  /* CARDS */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 32px; box-shadow: var(--shadow); }
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-icon { width: 40px; height: 40px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 14px; }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .card-body { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+  /* COMPARE */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .compare-card { border-radius: var(--radius-lg); padding: 24px 28px; border: 1px solid var(--border); }
+  .compare-card.before { background: #F7F4F0; }
+  .compare-card.after { background: var(--teal-bg); border-color: rgba(26,107,90,.2); }
+  .compare-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+  .before .compare-label { color: var(--ink3); }
+  .after .compare-label { color: var(--teal); }
+  .compare-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 13px; line-height: 1.5; }
+  .compare-item:last-child { margin-bottom: 0; }
+  .dot-bad { width: 6px; height: 6px; border-radius: 50%; background: #C4561A; margin-top: 5px; flex-shrink: 0; }
+  .dot-good { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 5px; flex-shrink: 0; }
+
+  /* FLOW */
+  .flow { display: flex; flex-direction: column; }
+  .flow-step { display: flex; gap: 20px; }
+  .flow-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+  .flow-num { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; z-index: 1; }
+  .flow-line { width: 2px; flex: 1; background: var(--border2); margin: 4px 0; min-height: 24px; }
+  .flow-body { padding: 6px 0 32px; flex: 1; }
+  .flow-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .flow-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+  .flow-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-top: 8px; letter-spacing: .04em; }
+
+  /* CODE */
+  .code-block { background: #1A1916; color: #D4D0C8; border-radius: var(--radius); padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; overflow-x: auto; margin: 12px 0; border: 1px solid rgba(255,255,255,.06); }
+  .code-block .k { color: #E8A87C; }
+  .code-block .s { color: #A8D8A8; }
+  .code-block .c { color: #666; }
+  .code-block .n { color: #89CFF0; }
+  .code-block .m { color: #FFD580; }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink3); background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; color: var(--ink2); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface2); }
+  .code-inline { font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #EEE9E0; padding: 2px 6px; border-radius: 4px; color: var(--accent); }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-req { background: #FDE8E0; color: #B03A1A; }
+  .badge-opt { background: var(--surface2); color: var(--ink3); }
+  .badge-rec { background: var(--teal-bg); color: var(--teal); }
+
+  /* BOXES */
+  .warn-box { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: var(--radius); padding: 14px 18px; font-size: 13px; color: var(--warn); line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; }
+  .warn-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .info-box { background: var(--blue-bg); border: 1px solid rgba(26,60,107,.15); border-radius: var(--radius); padding: 14px 18px; font-size: 13px; color: var(--blue); line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; }
+
+  /* TECH STACK */
+  .stack-item { display: flex; gap: 16px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-icon { width: 36px; height: 36px; border-radius: var(--radius); background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .stack-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .stack-desc { font-size: 13px; color: var(--ink2); }
+
+  /* FORM ELEMENTS */
+  .form-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
+  .form-header { background: var(--ink); padding: 20px 28px; display: flex; align-items: center; gap: 14px; }
+  .form-header-logo { font-family: 'DM Serif Display', serif; font-size: 16px; color: #fff; }
+  .form-header-logo span { color: var(--accent2); }
+  .form-header-model { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; background: rgba(196,86,26,.25); color: var(--accent2); padding: 2px 8px; border-radius: 4px; }
+  .form-progress-bar { height: 3px; background: var(--border); }
+  .form-progress-fill { height: 100%; background: var(--accent); transition: width .4s; }
+  .form-body { padding: 28px; }
+
+  .step-pills { display: flex; gap: 0; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
+  .step-pill { display: flex; align-items: center; gap: 8px; padding: 0 10px 0 0; cursor: pointer; }
+  .step-pill:first-child { padding-left: 0; }
+  .pill-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; border: 2px solid var(--border2); color: var(--ink3); transition: all .2s; }
+  .pill-dot.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .pill-dot.done { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .pill-label { font-size: 12px; color: var(--ink3); white-space: nowrap; }
+  .pill-label.active { color: var(--accent); font-weight: 500; }
+  .pill-label.done { color: var(--teal); }
+  .pill-line { width: 12px; height: 1px; background: var(--border2); flex-shrink: 0; }
+  .pill-line.done { background: var(--teal); }
+
+  .form-section-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); margin-bottom: 20px; }
+  .f-group { margin-bottom: 18px; }
+  .f-label { display: block; font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .f-req { color: var(--accent); }
+  .f-input { width: 100%; border: 1px solid var(--border2); border-radius: var(--radius); padding: 10px 14px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: #fff; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+  .f-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196,86,26,.1); }
+  textarea.f-input { min-height: 90px; resize: vertical; }
+  .f-hint { font-size: 12px; color: var(--ink3); margin-top: 5px; }
+  .f-upload { border: 1.5px dashed var(--border2); border-radius: var(--radius); padding: 20px; text-align: center; background: #FAFAF7; cursor: pointer; transition: border-color .2s, background .2s; }
+  .f-upload:hover { border-color: var(--accent); background: var(--accent-bg); }
+  .f-upload-icon { font-size: 22px; color: var(--ink3); margin-bottom: 6px; }
+  .f-upload-text { font-size: 13px; color: var(--ink3); }
+  .f-upload-sub { font-size: 11px; color: var(--ink3); margin-top: 3px; }
+  .f-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .contact-item { display: grid; grid-template-columns: 150px 1fr auto; gap: 10px; align-items: flex-end; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 8px; }
+  .btn-remove-contact { font-size: 12px; color: var(--ink3); background: none; border: 1px solid var(--border2); border-radius: 6px; padding: 8px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .btn-remove-contact:hover { color: var(--accent); border-color: var(--accent); }
+
+  .sec-fixed-item { display: flex; align-items: center; gap: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; }
+  .sec-fixed-icon { font-size: 16px; line-height: 1; }
+  .sec-fixed-name { font-size: 13px; font-weight: 500; color: var(--ink2); flex: 1; }
+  .sec-fixed-badge { font-size: 11px; font-weight: 600; color: var(--ink3); background: var(--surface); border: 1px solid var(--border2); padding: 2px 8px; border-radius: 20px; }
+
+  .sec-row { display: flex; align-items: center; gap: 12px; background: var(--accent-bg); border: 1px solid rgba(196,86,26,.2); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 8px; }
+  .section-name-input { flex: 1; border: none; background: transparent; font-size: 13px; font-weight: 500; color: var(--ink); font-family: 'DM Sans', sans-serif; border-bottom: 1.5px dashed var(--border2); padding: 2px 0; transition: border-color .2s; }
+  .section-name-input:focus { outline: none; border-bottom-color: var(--accent); }
+
+  .warn-hbook { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--warn); line-height: 1.6; margin-bottom: 20px; }
+  .warn-hbook strong { display: block; margin-bottom: 2px; }
+
+  .acom-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 12px; }
+  .acom-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .acom-card-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .btn-remove-acom { font-size: 12px; color: var(--ink3); background: none; border: 1px solid var(--border2); border-radius: 6px; padding: 3px 10px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+  .btn-remove-acom:hover { color: var(--accent); border-color: var(--accent); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .f-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border2); cursor: pointer; color: var(--ink3); background: #fff; transition: all .15s; font-family: 'DM Sans', sans-serif; }
+  .f-tag.sel { background: var(--accent-bg); color: var(--accent); border-color: rgba(196,86,26,.3); }
+
+  .btn-add { width: 100%; padding: 12px; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'DM Sans', sans-serif; margin-bottom: 20px; transition: border-color .2s, background .2s; }
+  .btn-add-teal { border: 1.5px dashed rgba(26,107,90,.4); background: var(--teal-bg); color: var(--teal); }
+  .btn-add-teal:hover { background: #D4EDE7; border-color: var(--teal); }
+  .btn-add-accent { border: 1.5px dashed rgba(196,86,26,.3); background: var(--accent-bg); color: var(--accent); }
+  .btn-add-accent:hover { background: #F9E3D0; border-color: var(--accent); }
+
+  .tourist-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 8px; }
+  .tourist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .tourist-title { font-size: 12px; font-weight: 600; color: var(--ink3); }
+
+  .terms-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 20px; margin-bottom: 16px; }
+  .terms-box label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+  .terms-box input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--accent); }
+  .terms-box span { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+  #btn-submit:disabled { opacity: .4; cursor: not-allowed; }
+
+  .form-nav { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--border); margin-top: 8px; }
+  .btn-nav { padding: 10px 22px; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; display: flex; align-items: center; gap: 8px; }
+  .btn-back { background: #fff; border: 1px solid var(--border2); color: var(--ink2); }
+  .btn-back:hover { border-color: var(--ink3); }
+  .btn-next { background: var(--accent); border: none; color: #fff; }
+  .btn-next:hover { background: #A8461A; }
+  .step-count { font-size: 12px; color: var(--ink3); }
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,.5); padding: 40px; text-align: center; font-size: 13px; }
+  footer strong { color: rgba(255,255,255,.8); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .animate { animation: fadeUp .5s ease both; }
+  .delay-1 { animation-delay: .1s; }
+  .delay-2 { animation-delay: .2s; }
+  .delay-3 { animation-delay: .3s; }
+
+  @media (max-width: 700px) {
+    .container { padding: 0 20px; } nav { padding: 0 20px; }
+    .card-grid-2, .card-grid-3, .compare-grid, .f-grid-2 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; } .nav-links { display: none; }
+    .contact-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">H<span>WEB</span> · Combo Starter</div>
+  <div class="nav-links">
+    <a href="#contexto" class="active">Contexto</a>
+    <a href="#solucao">Solução</a>
+    <a href="#fluxo">Fluxo</a>
+    <a href="#formulario">Formulário</a>
+    <a href="#api">API Duda</a>
+    <a href="#dev">Dev Handoff</a>
+  </div>
+  <span class="nav-badge">Combo Starter</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-eyebrow animate">HSystem · Produto Digital · Modelo Combo Starter</div>
+    <h1 class="animate delay-1">Formulário de Coleta de Conteúdo <em>Combo Starter</em></h1>
+    <p class="hero-desc animate delay-2">Especificação completa para gestão e desenvolvimento. Versão simplificada do HWEB para o modelo Combo Starter — 4 páginas fixas, processo de implantação mais rápido.</p>
+    <div class="hero-meta animate delay-3">
+      <div class="meta-item"><span class="meta-label">Produto</span><span class="meta-value">HWEB — Combo Starter</span></div>
+      <div class="meta-item"><span class="meta-label">Plataforma</span><span class="meta-value">Duda (White Label)</span></div>
+      <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">Node.js + Duda REST API</span></div>
+      <div class="meta-item"><span class="meta-label">Área</span><span class="meta-value">CS Onboarding → Squad HWEB</span></div>
+    </div>
+    <div class="pages-strip animate delay-3">
+      <div class="page-chip"><span class="dot"></span>Home</div>
+      <div class="page-chip"><span class="dot"></span>Quartos</div>
+      <div class="page-chip"><span class="dot"></span>Destino</div>
+      <div class="page-chip"><span class="dot"></span>Contato</div>
+      <div class="page-chip extra"><span class="dot"></span>+ Seção extra (opcional)</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <div class="container">
+    <div class="section-eyebrow">01 · Contexto</div>
+    <h2 class="section-title">O Combo Starter e o processo de coleta</h2>
+    <p class="section-desc">O modelo Combo Starter tem estrutura fixa de 4 páginas, tornando a implantação mais simples e rápida. O formulário reflete essa simplicidade — sem toggles condicionais, sem vídeo, com campos direcionados ao conteúdo que esse modelo realmente usa.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card before">
+        <div class="compare-label">⬤ Processo atual</div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Analista cria pasta no Google Drive e envia documento Word ao cliente</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Imagens enviadas sem validação de resolução ou formato</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Analista organiza manualmente todo o conteúdo antes de iniciar</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Sem distinção de coleta entre modelos — processo igual para todos</span></div>
+        <div class="compare-item"><span class="dot-bad"></span><span>Retrabalho frequente para corrigir conteúdo fora do padrão</span></div>
+      </div>
+      <div class="compare-card after">
+        <div class="compare-label">⬤ Processo proposto</div>
+        <div class="compare-item"><span class="dot-good"></span><span>Formulário específico para o Combo Starter, com link único por cliente</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Campos alinhados às 4 páginas fixas — sem campos desnecessários</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Conteúdo injetado automaticamente no Duda ao submeter</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Analista abre o editor com conteúdo já organizado por seção</span></div>
+        <div class="compare-item"><span class="dot-good"></span><span>Validação de imagens e campos obrigatórios em tempo real</span></div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid-3" style="margin-top:12px">
+      <div class="card">
+        <div class="card-icon" style="background:#FDE8E0;font-size:20px">⚡</div>
+        <div class="card-title">Implantação mais rápida</div>
+        <div class="card-body">Estrutura fixa elimina decisões sobre seções — o analista sabe exatamente o que esperar ao abrir o editor.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:var(--teal-bg);font-size:20px">🎯</div>
+        <div class="card-title">Coleta direcionada</div>
+        <div class="card-body">Sem campos de vídeo ou seções condicionais — o cliente preenche apenas o que o modelo realmente usa.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon" style="background:var(--blue-bg);font-size:20px">📦</div>
+        <div class="card-title">Mesma base técnica</div>
+        <div class="card-body">Reutiliza a mesma integração com a API Duda do formulário principal — sem infraestrutura adicional.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section id="solucao">
+  <div class="container">
+    <div class="section-eyebrow">02 · Solução</div>
+    <h2 class="section-title">Arquitetura da solução</h2>
+    <p class="section-desc">Mesma base técnica do formulário HWEB completo — frontend multi-step, backend Node.js e integração via API REST do Duda — com payload simplificado para o modelo Combo Starter.</p>
+
+    <div class="card" style="margin-bottom:20px">
+      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Stack tecnológica</div>
+      <div class="stack-item">
+        <div class="stack-icon">🌐</div>
+        <div><div class="stack-name">Frontend — Formulário embarcado (HTML/CSS/JS ou React)</div><div class="stack-desc">6 etapas: Identificação → Contatos → Seções → Textos → Quartos → Imagens. Páginas fixas (Home, Quartos, Destino, Contato) exibidas como confirmação — sem toggles. Pontos turísticos dinâmicos (mín. 3). Seção extra opcional que propaga para Textos e Imagens.</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">⚙️</div>
+        <div><div class="stack-name">Backend — Node.js (Express ou Fastify)</div><div class="stack-desc">Recebe o payload, valida, faz upload das imagens para o Duda, monta o JSON de conteúdo e chama a Content API. Gerencia retry automático, log por propriedade e notificação ao analista. Payload mais simples que o formulário principal — sem campos condicionais.</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon">🔗</div>
+        <div><div class="stack-name">Integração — Duda Partner REST API</div><div class="stack-desc">Autenticação Basic (API user:password). Endpoints: POST /content para textos e contatos, POST /resources/upload para imagens. Sem campos de vídeo — o modelo Combo Starter não utiliza banner em vídeo.</div></div>
+      </div>
+      <div class="stack-item" style="border-bottom:none">
+        <div class="stack-icon">📦</div>
+        <div><div class="stack-name">Armazenamento — banco de dados HSystem</div><div class="stack-desc">Cada envio cria um registro com: id da propriedade, site_name no Duda, status do envio, timestamp, campos preenchidos, lista de imagens e log de erros. Identificado como "Combo Starter" no sistema.</div></div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <span class="warn-icon">⚠</span>
+      <span>As credenciais da API Duda (user:password) devem ser armazenadas como variáveis de ambiente no backend. <strong>Nunca devem ser expostas no frontend</strong> ou em repositórios de código.</span>
+    </div>
+  </div>
+</section>
+
+<!-- FLUXO -->
+<section id="fluxo">
+  <div class="container">
+    <div class="section-eyebrow">03 · Fluxo</div>
+    <h2 class="section-title">Jornada completa do conteúdo</h2>
+    <p class="section-desc">Do envio pelo cliente até o conteúdo disponível no editor do Duda para o analista iniciar a produção do site Combo Starter.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-left"><div class="flow-num" style="background:var(--accent-bg);color:var(--accent)">1</div><div class="flow-line"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Analista cria o site no Duda e gera o link do formulário</div>
+          <div class="flow-desc">O analista cria o site no Duda com o template Combo Starter (obtendo o <code style="font-family:'JetBrains Mono',monospace;font-size:12px;background:#EEE9E0;padding:1px 5px;border-radius:3px">site_name</code>), registra a propriedade no HSystem como modelo Combo Starter e gera o link personalizado. O link é enviado ao cliente por WhatsApp ou e-mail.</div>
+          <span class="flow-tag" style="background:var(--blue-bg);color:var(--blue)">Responsável: Analista HWEB</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left"><div class="flow-num" style="background:var(--teal-bg);color:var(--teal)">2</div><div class="flow-line"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Cliente preenche o formulário (6 etapas)</div>
+          <div class="flow-desc">O cliente preenche identificação, contatos, confirma as 4 páginas fixas (podendo adicionar seção extra), escreve os textos das seções, cadastra as categorias de acomodação (com alerta de alinhamento HBOOK) e faz upload das imagens. O formulário valida campos obrigatórios e dimensões das fotos antes de permitir o envio.</div>
+          <span class="flow-tag" style="background:var(--teal-bg);color:var(--teal)">Responsável: Cliente</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left"><div class="flow-num" style="background:var(--accent-bg);color:var(--accent)">3</div><div class="flow-line"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Backend processa o envio</div>
+          <div class="flow-desc">O backend recebe o payload, valida integridade e executa 3 chamadas à API Duda em sequência: (1) POST /content com todos os textos e contatos, (2) upload da logo + atualização de logo_url, (3) upload das imagens em lote por categoria e atualização de site_images com labels organizados. Em caso de falha, retry automático com 3 tentativas e log de erro registrado.</div>
+          <span class="flow-tag" style="background:var(--accent-bg);color:var(--accent)">Responsável: Sistema (automático)</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left"><div class="flow-num" style="background:var(--blue-bg);color:var(--blue)">4</div><div class="flow-line"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Notificação para o analista</div>
+          <div class="flow-desc">Após conclusão dos uploads, o sistema envia notificação interna com: nome da propriedade, modelo (Combo Starter), link direto ao site no Duda, categorias de acomodação preenchidas e eventuais alertas. Status muda para "Em revisão".</div>
+          <span class="flow-tag" style="background:var(--blue-bg);color:var(--blue)">Responsável: Sistema (automático)</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-left"><div class="flow-num" style="background:var(--teal-bg);color:var(--teal)">5</div></div>
+        <div class="flow-body" style="padding-bottom:0">
+          <div class="flow-title">Analista revisa e inicia produção</div>
+          <div class="flow-desc">O analista abre o editor do Duda e encontra todo o conteúdo organizado: textos em Business Data/Site Texts, imagens em pastas por categoria. Com as 4 páginas já definidas no template, basta aplicar o conteúdo e ajustar o visual.</div>
+          <span class="flow-tag" style="background:var(--teal-bg);color:var(--teal)">Responsável: Analista HWEB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section id="formulario">
+  <div class="container">
+    <div class="section-eyebrow">04 · Protótipo</div>
+    <h2 class="section-title">Formulário — visão do cliente</h2>
+    <p class="section-desc">Interface multi-step com 6 etapas. Clique nas etapas para navegar entre os painéis.</p>
+
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-header-logo">H<span>WEB</span></div>
+        <span class="form-header-model">Combo Starter</span>
+        <span style="font-size:13px;color:rgba(255,255,255,.7)">Envio de Conteúdo do Site</span>
+        <span style="font-size:12px;color:rgba(255,255,255,.5);margin-left:auto">Preencha os dados da sua propriedade</span>
+      </div>
+      <div class="form-progress-bar"><div class="form-progress-fill" id="fpbar" style="width:16.67%"></div></div>
+
+      <div class="form-body">
+        <div class="step-pills">
+          <div class="step-pill" onclick="goStep(1)"><div class="pill-dot active" id="pd1">1</div><span class="pill-label active" id="pl1">Identificação</span></div>
+          <div class="pill-line" id="pline1"></div>
+          <div class="step-pill" onclick="goStep(2)"><div class="pill-dot" id="pd2">2</div><span class="pill-label" id="pl2">Contatos</span></div>
+          <div class="pill-line" id="pline2"></div>
+          <div class="step-pill" onclick="goStep(3)"><div class="pill-dot" id="pd3">3</div><span class="pill-label" id="pl3">Seções</span></div>
+          <div class="pill-line" id="pline3"></div>
+          <div class="step-pill" onclick="goStep(4)"><div class="pill-dot" id="pd4">4</div><span class="pill-label" id="pl4">Textos</span></div>
+          <div class="pill-line" id="pline4"></div>
+          <div class="step-pill" onclick="goStep(5)"><div class="pill-dot" id="pd5">5</div><span class="pill-label" id="pl5">Quartos</span></div>
+          <div class="pill-line" id="pline5"></div>
+          <div class="step-pill" onclick="goStep(6)"><div class="pill-dot" id="pd6">6</div><span class="pill-label" id="pl6">Imagens</span></div>
+        </div>
+
+        <!-- PAINEL 1 — Identificação -->
+        <div class="form-panel active" id="fp1">
+          <div class="form-section-label">Etapa 1 de 6 — Identificação da propriedade</div>
+          <div class="f-group"><label class="f-label">Nome da propriedade <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Ex: Apart-hotel Vista das Serras"></div>
+          <div class="f-group"><label class="f-label">Nome do responsável pelo envio <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Seu nome completo"></div>
+          <div class="f-group">
+            <label class="f-label">Logomarca <span class="f-req">*</span></label>
+            <div class="f-upload"><div class="f-upload-icon">↑</div><div class="f-upload-text">Clique para enviar ou arraste o arquivo</div><div class="f-upload-sub">PNG, SVG ou JPEG · Fundo transparente recomendado · Máx. 10 MB · Melhor resolução possível</div></div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Manual de marca <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <div class="f-upload"><div class="f-upload-icon" style="font-size:16px">📄</div><div class="f-upload-text">PDF do manual de identidade visual</div></div>
+          </div>
+          <div class="form-nav"><span></span><span class="step-count">1 / 6</span><button class="btn-nav btn-next" onclick="goStep(2)">Próximo →</button></div>
+        </div>
+
+        <!-- PAINEL 2 — Contatos -->
+        <div class="form-panel" id="fp2">
+          <div class="form-section-label">Etapa 2 de 6 — Contatos e redes sociais</div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">Telefones da propriedade <span class="f-req">*</span></div>
+          <div id="contact-list"></div>
+          <button class="btn-add btn-add-teal" onclick="addContact()">+ Adicionar telefone / WhatsApp</button>
+          <div class="f-group"><label class="f-label">E-mail de contato <span class="f-req">*</span></label><input class="f-input" type="email" placeholder="contato@suapropriedade.com.br"><div class="f-hint">Este e-mail ficará visível para os hóspedes no site.</div></div>
+          <div class="f-group"><label class="f-label">Endereço completo <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Rua, número, bairro, complemento"></div>
+          <div style="display:grid;grid-template-columns:1fr 90px 150px;gap:14px">
+            <div class="f-group"><label class="f-label">Cidade <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Cidade"></div>
+            <div class="f-group"><label class="f-label">Estado <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="UF" maxlength="2" style="text-transform:uppercase"></div>
+            <div class="f-group"><label class="f-label">CEP <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label><input class="f-input" type="text" placeholder="00000-000"></div>
+          </div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:20px 0 12px">Redes sociais — adicione as que sua propriedade usa</div>
+          <div class="f-group"><label class="f-label">Instagram</label><input class="f-input" type="url" placeholder="https://www.instagram.com/suapropriedade"></div>
+          <div class="f-grid-2">
+            <div class="f-group"><label class="f-label">Facebook</label><input class="f-input" type="url" placeholder="https://facebook.com/..."></div>
+            <div class="f-group"><label class="f-label">YouTube</label><input class="f-input" type="url" placeholder="https://youtube.com/..."></div>
+          </div>
+          <div class="f-grid-2">
+            <div class="f-group"><label class="f-label">TripAdvisor</label><input class="f-input" type="url" placeholder="Link do seu perfil"></div>
+            <div class="f-group"><label class="f-label">TikTok</label><input class="f-input" type="url" placeholder="https://tiktok.com/@..."></div>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Outra rede social <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label>
+            <input class="f-input" type="url" placeholder="Ex: https://linkedin.com/company/...">
+            <div class="f-hint">Para redes não listadas ou segunda conta — informe o nome da rede no campo de observações finais.</div>
+          </div>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(1)">← Voltar</button><span class="step-count">2 / 6</span><button class="btn-nav btn-next" onclick="goStep(3)">Próximo →</button></div>
+        </div>
+
+        <!-- PAINEL 3 — Seções -->
+        <div class="form-panel" id="fp3">
+          <div class="form-section-label">Etapa 3 de 6 — Seções do site</div>
+          <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">O Combo Starter possui 4 páginas fixas. Em casos específicos é possível adicionar uma seção extra — nossa equipe entrará em contato para alinhar o conteúdo adicional.</p>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Páginas incluídas no modelo</div>
+          <div class="sec-fixed-item"><span class="sec-fixed-icon">🏠</span><span class="sec-fixed-name">Home</span><span class="sec-fixed-badge">Fixo</span></div>
+          <div class="sec-fixed-item"><span class="sec-fixed-icon">🛏</span><span class="sec-fixed-name">Quartos / Acomodações</span><span class="sec-fixed-badge">Fixo</span></div>
+          <div class="sec-fixed-item"><span class="sec-fixed-icon">🌄</span><span class="sec-fixed-name">Destino</span><span class="sec-fixed-badge">Fixo</span></div>
+          <div class="sec-fixed-item" style="margin-bottom:24px"><span class="sec-fixed-icon">📞</span><span class="sec-fixed-name">Contato</span><span class="sec-fixed-badge">Fixo</span></div>
+          <div style="border-top:1px solid var(--border);padding-top:20px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px">Seção extra <span style="font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></div>
+            <p style="font-size:12px;color:var(--ink3);margin-bottom:14px;line-height:1.6">Se sua propriedade precisar de uma seção adicional, adicione aqui. Os campos de texto e imagem correspondentes aparecerão automaticamente nas etapas seguintes.</p>
+            <div id="extra-section-list"></div>
+            <button class="btn-add btn-add-accent" onclick="addSection()">+ Adicionar seção extra</button>
+          </div>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(2)">← Voltar</button><span class="step-count">3 / 6</span><button class="btn-nav btn-next" onclick="goStep(4)">Próximo →</button></div>
+        </div>
+
+        <!-- PAINEL 4 — Textos -->
+        <div class="form-panel" id="fp4">
+          <div class="form-section-label">Etapa 4 de 6 — Textos do site</div>
+          <div class="f-group"><label class="f-label">Sobre a propriedade <span class="f-req">*</span></label><textarea class="f-input" placeholder="Descreva sua propriedade: história, diferenciais, o que torna a experiência especial..."></textarea><div class="f-hint">Referências em sites.hsystem.com.br</div></div>
+          <div class="f-group"><label class="f-label">Serviços e comodidades <span class="f-req">*</span></label><textarea class="f-input" placeholder="Wi-Fi, estacionamento, café da manhã incluso, serviços disponíveis..."></textarea></div>
+          <div class="f-group"><label class="f-label">Localização e região <span class="f-req">*</span></label><textarea class="f-input" placeholder="Descreva a região, como chegar, o que há por perto..."></textarea></div>
+          <div class="f-group">
+            <label class="f-label">Pontos turísticos próximos <span class="f-req">*</span> <span style="font-size:12px;font-weight:400;color:var(--ink3)">(mínimo 3)</span></label>
+            <div id="tourist-list"></div>
+            <button class="btn-add btn-add-teal" onclick="addTourist()">+ Adicionar ponto turístico</button>
+          </div>
+          <div id="cond-extra-texts"></div>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(3)">← Voltar</button><span class="step-count">4 / 6</span><button class="btn-nav btn-next" onclick="goStep(5)">Próximo →</button></div>
+        </div>
+
+        <!-- PAINEL 5 — Quartos -->
+        <div class="form-panel" id="fp5">
+          <div class="form-section-label">Etapa 5 de 6 — Quartos / Acomodações</div>
+          <div class="warn-hbook"><strong>⚠ Mantenha as categorias idênticas às do seu motor de reservas</strong>Os nomes e a quantidade de categorias aqui devem ser os mesmos cadastrados no HBOOK. Isso garante que o hóspede veja as mesmas opções no site e na reserva, sem confusão.</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+            <span style="font-size:13px;font-weight:600;color:var(--ink)">Categorias cadastradas <span id="acom-count" style="font-size:12px;background:var(--accent-bg);color:var(--accent);padding:2px 10px;border-radius:20px;font-weight:600;margin-left:6px">1</span></span>
+          </div>
+          <div id="acom-list"></div>
+          <button class="btn-add btn-add-teal" onclick="addAcom()">+ Adicionar categoria</button>
+          <div class="form-nav"><button class="btn-nav btn-back" onclick="goStep(4)">← Voltar</button><span class="step-count">5 / 6</span><button class="btn-nav btn-next" onclick="goStep(6)">Próximo →</button></div>
+        </div>
+
+        <!-- PAINEL 6 — Imagens -->
+        <div class="form-panel" id="fp6">
+          <div class="form-section-label">Etapa 6 de 6 — Imagens e envio</div>
+          <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">Quanto mais fotos e melhor a qualidade, mais bonito ficará o site.</p>
+          <div class="f-group"><label class="f-label">Fachada e áreas gerais <span class="f-req">*</span></label><div class="f-upload"><div class="f-upload-icon">🏨</div><div class="f-upload-text">Fachada, recepção, áreas comuns, café da manhã</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto · Melhor resolução possível</div></div></div>
+          <div class="f-group"><label class="f-label">Destino / pontos turísticos <span style="font-size:12px;color:var(--ink3);font-weight:400">(recomendado)</span></label><div class="f-upload"><div class="f-upload-icon">🌄</div><div class="f-upload-text">Pontos turísticos e paisagens da região</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto · Melhor resolução possível</div></div></div>
+          <div id="cond-extra-imgs"></div>
+          <div class="f-group"><label class="f-label">Política LGPD <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label><div class="f-upload"><div class="f-upload-icon">📋</div><div class="f-upload-text">PDF com política de privacidade</div></div></div>
+          <div class="f-group"><label class="f-label">Observações gerais <span style="font-size:12px;color:var(--ink3);font-weight:400">(opcional)</span></label><textarea class="f-input" placeholder="Informações adicionais, segunda rede social, dúvidas ou qualquer conteúdo que não se encaixe nos campos acima..."></textarea></div>
+          <div class="terms-box">
+            <label>
+              <input type="checkbox" id="terms-check" onchange="toggleSubmit()">
+              <span>Declaro que estou ciente de que todo o conteúdo enviado neste formulário — textos, imagens e demais arquivos — é de minha responsabilidade. Confirmo que possuo direitos de uso sobre os materiais fornecidos e autorizo a HSystem a utilizá-los exclusivamente para a produção do site contratado. A HSystem não se responsabiliza por questões relacionadas à titularidade ou direitos de imagem dos arquivos encaminhados.</span>
+            </label>
+          </div>
+          <div style="background:var(--teal-bg);border:1px solid rgba(26,107,90,.2);border-radius:var(--radius);padding:20px;text-align:center;margin-top:8px">
+            <div style="font-size:22px;margin-bottom:8px">✓</div>
+            <div style="font-size:15px;font-weight:600;color:var(--teal);margin-bottom:6px">Tudo pronto para enviar</div>
+            <div style="font-size:13px;color:var(--teal);opacity:.8;margin-bottom:16px">Nossa equipe revisará as informações e entrará em contato em até 2 dias úteis.</div>
+            <button class="btn-nav btn-next" id="btn-submit" style="margin:0 auto;padding:12px 32px" disabled>Enviar conteúdo</button>
+          </div>
+          <div class="form-nav" style="padding-top:16px"><button class="btn-nav btn-back" onclick="goStep(5)">← Voltar</button><span class="step-count">6 / 6</span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- API DUDA -->
+<section id="api">
+  <div class="container">
+    <div class="section-eyebrow">05 · Integração</div>
+    <h2 class="section-title">API Duda — especificação técnica</h2>
+    <p class="section-desc">Sequência de 3 chamadas executadas pelo backend após o cliente submeter o formulário. Autenticação Basic em todas as requisições. Sem campos de vídeo — o modelo Combo Starter não utiliza banner em vídeo.</p>
+
+    <div class="info-box" style="margin-bottom:28px">
+      <span style="font-size:16px">ℹ</span>
+      <span>Base URL: <code style="font-family:'JetBrains Mono',monospace;font-size:12px">https://api.duda.co/api/sites/multiscreen/{site_name}</code> · Autenticação: <code style="font-family:'JetBrains Mono',monospace;font-size:12px">Authorization: Basic base64(user:password)</code></span>
+    </div>
+
+    <!-- CALL 1 -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/content</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 1 — Textos e contatos</span>
+      </div>
+      <div class="code-block"><span class="c">// Todos os campos de texto, contatos e redes sociais em uma única chamada</span>
+{
+  <span class="k">"business_data"</span>: { <span class="k">"name"</span>: <span class="s">"Nome da Propriedade"</span> },
+  <span class="k">"location_data"</span>: {
+    <span class="k">"phones"</span>: [
+      { <span class="k">"phoneNumber"</span>: <span class="s">"(37) 99832-7246"</span>, <span class="k">"label"</span>: <span class="s">"Telefone da propriedade"</span> },
+      { <span class="k">"phoneNumber"</span>: <span class="s">"(37) 99832-7246"</span>, <span class="k">"label"</span>: <span class="s">"WhatsApp da propriedade"</span> }
+    ],
+    <span class="k">"emails"</span>: [{ <span class="k">"emailAddress"</span>: <span class="s">"contato@exemplo.com"</span>, <span class="k">"label"</span>: <span class="s">"Contato"</span> }],
+    <span class="k">"address"</span>: {
+      <span class="k">"streetAddress"</span>: <span class="s">"Rua Getúlio Vargas, 1331"</span>,
+      <span class="k">"city"</span>: <span class="s">"Piumhi"</span>, <span class="k">"region"</span>: <span class="s">"MG"</span>,
+      <span class="k">"postalCode"</span>: <span class="s">"37930-000"</span>, <span class="k">"country"</span>: <span class="s">"BR"</span>
+    },
+    <span class="k">"social_accounts"</span>: {
+      <span class="k">"instagram"</span>: <span class="s">"handle"</span>, <span class="k">"facebook"</span>: <span class="s">"handle"</span>,
+      <span class="k">"youtube"</span>: <span class="s">"channel-id"</span>, <span class="k">"tiktok"</span>: <span class="s">"handle"</span>
+    }
+  },
+  <span class="k">"site_texts"</span>: {
+    <span class="k">"about_us"</span>: <span class="s">"Texto sobre a propriedade..."</span>,
+    <span class="k">"services"</span>: <span class="s">"Serviços e comodidades..."</span>,
+    <span class="k">"custom"</span>: [
+      { <span class="k">"label"</span>: <span class="s">"localizacao"</span>,           <span class="k">"text"</span>: <span class="s">"Texto da região..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_nome_1"</span>, <span class="k">"text"</span>: <span class="s">"Cânions de Capitólio"</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_desc_1"</span>, <span class="k">"text"</span>: <span class="s">"A 30 km, paredões de basalto..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_nome_2"</span>, <span class="k">"text"</span>: <span class="s">"Lago de Furnas"</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_desc_2"</span>, <span class="k">"text"</span>: <span class="s">"Represa com 1.440 km²..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_nome_3"</span>, <span class="k">"text"</span>: <span class="s">"Serra da Canastra"</span> },
+      { <span class="k">"label"</span>: <span class="s">"ponto_turistico_desc_3"</span>, <span class="k">"text"</span>: <span class="s">"Parque Nacional, nascente do São Francisco..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_nome_1"</span>,           <span class="k">"text"</span>: <span class="s">"Classic Queen"</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_desc_1"</span>,           <span class="k">"text"</span>: <span class="s">"Descrição da categoria..."</span> },
+      { <span class="k">"label"</span>: <span class="s">"acom_items_1"</span>,          <span class="k">"text"</span>: <span class="s">"Wi-Fi, Ar-condicionado, TV, Frigobar..."</span> },
+      <span class="c">// seção extra (se adicionada no Etapa 3):</span>
+      { <span class="k">"label"</span>: <span class="s">"extra_sec_nome_1"</span>,      <span class="k">"text"</span>: <span class="s">"Café da manhã"</span> },
+      { <span class="k">"label"</span>: <span class="s">"extra_sec_texto_1"</span>,     <span class="k">"text"</span>: <span class="s">"Servido das 7h às 10h..."</span> }
+    ]
+  }
+}</div>
+    </div>
+
+    <!-- CALL 2 -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/resources/upload</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 2 — Upload da logo</span>
+      </div>
+      <div class="code-block"><span class="c">// Passo 1: backend envia o arquivo para storage HSystem → obtém URL pública</span>
+<span class="c">// Passo 2: POST /resources/upload com a URL (a API não aceita binário direto)</span>
+[
+  {
+    <span class="k">"src"</span>: <span class="s">"https://storage.hsystem.com.br/uploads/logo.png"</span>,
+    <span class="k">"resource_type"</span>: <span class="s">"IMAGE"</span>
+  }
+]
+
+<span class="c">// Resposta (campo é uploaded_resources[].new_url — não n_urls):</span>
+{
+  <span class="k">"n_failures"</span>: <span class="m">0</span>,
+  <span class="k">"uploaded_resources"</span>: [
+    {
+      <span class="k">"original_url"</span>: <span class="s">"https://storage.hsystem.com.br/uploads/logo.png"</span>,
+      <span class="k">"new_url"</span>:      <span class="s">"https://irp.cdn-website.com/.../logo.png"</span>,
+      <span class="k">"status"</span>:       <span class="s">"UPLOADED"</span>
+    }
+  ]
+}
+
+<span class="c">// Em seguida, POST /content para atualizar logo_url:</span>
+{ <span class="k">"business_data"</span>: { <span class="k">"logo_url"</span>: <span class="s">"https://irp.cdn-website.com/.../logo.png"</span> } }</div>
+    </div>
+
+    <!-- CALL 3 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="background:#D4EDE7;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:3px 10px;border-radius:5px">POST</span>
+        <code style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2)">/resources/upload + /content</code>
+        <span style="margin-left:auto;font-size:13px;font-weight:600;color:var(--ink)">Chamada 3 — Imagens em lote por seção</span>
+      </div>
+      <div class="code-block"><span class="c">// Para cada grupo de imagens: upload → obter URL → adicionar em site_images</span>
+<span class="c">// Estrutura de labels para o Combo Starter:</span>
+
+POST <span class="n">/content</span>
+{
+  <span class="k">"site_images"</span>: [
+    { <span class="k">"label"</span>: <span class="s">"Fotos da Propriedade"</span>,        <span class="k">"url"</span>: <span class="s">"https://cdn.../img1.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> },
+    { <span class="k">"label"</span>: <span class="s">"Acomodações/Classic Queen"</span>,    <span class="k">"url"</span>: <span class="s">"https://cdn.../img2.jpg"</span>, <span class="k">"alt"</span>: <span class="s">"Classic Queen"</span> },
+    { <span class="k">"label"</span>: <span class="s">"Acomodações/Premium King"</span>,     <span class="k">"url"</span>: <span class="s">"https://cdn.../img3.jpg"</span>, <span class="k">"alt"</span>: <span class="s">"Premium King"</span> },
+    { <span class="k">"label"</span>: <span class="s">"Destino"</span>,                      <span class="k">"url"</span>: <span class="s">"https://cdn.../img4.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> },
+    <span class="c">// seção extra (se adicionada):</span>
+    { <span class="k">"label"</span>: <span class="s">"Café da manhã"</span>,              <span class="k">"url"</span>: <span class="s">"https://cdn.../img5.jpg"</span>, <span class="k">"alt"</span>: <span class="s">""</span> }
+  ]
+}
+
+<span class="c">// ⚠ Máximo 10 recursos por chamada — processar em lotes de 10 com await entre cada lote</span>
+<span class="c">// ⚠ label tem limite de 80 chars — garantir que "Acomodações/" + nome_categoria não ultrapasse</span>
+<span class="c">// ⚠ Vídeo não é suportado pela API Duda — o modelo Combo Starter não utiliza esse recurso</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEV HANDOFF -->
+<section id="dev">
+  <div class="container">
+    <div class="section-eyebrow">06 · Dev Handoff</div>
+    <h2 class="section-title">O que o desenvolvimento precisa implementar</h2>
+    <p class="section-desc">Checklist completo de requisitos, regras de validação e mapeamento de campos para o formulário Combo Starter.</p>
+
+    <div style="overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:28px">
+      <table class="data-table">
+        <thead><tr><th>Campo</th><th>Destino API Duda</th><th>Validação</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nome da propriedade</strong></td><td><code class="code-inline">business_data.name</code></td><td>Obrigatório · max 100 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Logomarca</strong></td><td><code class="code-inline">business_data.logo_url</code></td><td>PNG, SVG ou JPEG · Máx. 10 MB</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Telefone(s)</strong></td><td><code class="code-inline">location_data.phones[]</code></td><td>Formato BR válido · mín 1</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>E-mail</strong></td><td><code class="code-inline">location_data.emails[0]</code></td><td>Formato e-mail válido</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Endereço / cidade / estado</strong></td><td><code class="code-inline">location_data.address</code></td><td>Todos obrigatórios · CEP opcional</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Redes sociais</strong></td><td><code class="code-inline">social_accounts.*</code></td><td>URL válida se preenchida</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Sobre a propriedade</strong></td><td><code class="code-inline">site_texts.about_us</code></td><td>Mín 100 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Serviços e comodidades</strong></td><td><code class="code-inline">site_texts.services</code></td><td>Mín 50 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Localização e região</strong></td><td><code class="code-inline">site_texts.custom[localizacao]</code></td><td>Mín 80 chars</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Pontos turísticos (mín 3)</strong></td><td><code class="code-inline">site_texts.custom[ponto_turistico_nome/desc_N]</code></td><td>Nome + descrição por item · mín 3 itens</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Categorias de acomodação</strong></td><td><code class="code-inline">site_texts.custom[acom_nome/desc/items_N]</code></td><td>Mín 1 · nome, descrição e comodidades obrigatórios por categoria</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos por categoria</strong></td><td><code class="code-inline">site_images (label=Acomodações/[nome])</code></td><td>JPG/PNG · mín 1200×800px · mín 5 por categoria</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos gerais da propriedade</strong></td><td><code class="code-inline">site_images (label=Fotos da Propriedade)</code></td><td>JPG/PNG · mín 1200×800px</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+          <tr><td><strong>Fotos do destino</strong></td><td><code class="code-inline">site_images (label=Destino)</code></td><td>JPG/PNG · mín 1200×800px</td><td><span class="badge badge-rec">Recomendado</span></td></tr>
+          <tr><td><strong>Seção extra</strong></td><td><code class="code-inline">site_texts.custom[extra_sec_*] + site_images</code></td><td>Nome, texto e imagens opcionais — propaga para etapas 4 e 6</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Política LGPD / manual de marca</strong></td><td>Armazenado no storage HSystem</td><td>PDF · Máx. 20 MB</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Observações gerais</strong></td><td>Armazenado no HSystem · exibido na notificação ao analista</td><td>Texto livre</td><td><span class="badge badge-opt">Opcional</span></td></tr>
+          <tr><td><strong>Termo de responsabilidade</strong></td><td>Registro no HSystem (checkbox marcado = aceito)</td><td>Obrigatório antes de habilitar o envio</td><td><span class="badge badge-req">Obrigatório</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Frontend — requisitos</div>
+        <div style="font-size:13px;color:var(--ink2);line-height:1.8">
+          <div>✓ Multi-step com 6 etapas + progress bar</div>
+          <div>✓ Validação em tempo real por campo (blur)</div>
+          <div>✓ Validação de dimensão de imagem antes do upload</div>
+          <div>✓ 4 páginas fixas exibidas como itens não editáveis na Etapa 3</div>
+          <div>✓ Seção extra opcional — propaga campos para Etapas 4 e 6</div>
+          <div>✓ Pontos turísticos dinâmicos (mín 3, sem limite máximo)</div>
+          <div>✓ Categorias de acomodação dinâmicas (mín 1)</div>
+          <div>✓ Múltiplos telefones/WhatsApp dinâmicos (mín 1 obrigatório)</div>
+          <div>✓ Bloqueio de avanço se campos obrigatórios não preenchidos</div>
+          <div>✓ Botão "Enviar" bloqueado até termo de responsabilidade marcado</div>
+          <div>✓ Sem campos de vídeo (não utilizado no Combo Starter)</div>
+          <div>✓ Responsivo para mobile</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Backend — requisitos</div>
+        <div style="font-size:13px;color:var(--ink2);line-height:1.8">
+          <div>✓ Recebe payload multipart/form-data (textos + arquivos)</div>
+          <div>✓ Valida integridade antes de chamar a API Duda</div>
+          <div>✓ Sequência: POST /content → upload logo → upload imagens</div>
+          <div>✓ Retry automático: 3 tentativas com backoff exponencial</div>
+          <div>✓ Log estruturado por propriedade (site_name + timestamp)</div>
+          <div>✓ Notificação ao analista após conclusão com tag "Combo Starter"</div>
+          <div>✓ Credenciais Duda apenas em variáveis de ambiente (.env)</div>
+          <div>✓ Rate limit Duda: respeitar 100 req/min</div>
+          <div>✓ Upload em lotes de máx. 10 recursos/chamada (limite da API)</div>
+          <div>✓ Storage intermediário: arquivos HSystem → URL → Duda</div>
+          <div>✓ Resposta de upload: ler <code class="code-inline">uploaded_resources[].new_url</code></div>
+          <div>✓ label de site_images: máx. 80 chars — truncar se necessário</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:20px">
+      <span class="warn-icon">⚠</span>
+      <div><strong>CDR (CorelDraw) não suportado:</strong> O Duda não aceita arquivos .CDR. O formulário deve orientar o cliente a exportar logos em PNG, SVG ou JPEG antes do envio.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>HSystem · CS Onboarding — Squad HWEB</strong><br>
+  Documento de especificação · HWEB Formulário Combo Starter · Versão 1.0 · Junho 2026
+</footer>
+
+<script>
+  const TOTAL = 6;
+  let currentStep = 1;
+  let acomCount = 0, contactCount = 0, touristCount = 0, sectionCount = 0;
+  const comodidades = ['Wi-Fi','Ar-condicionado','TV','Frigobar','Hidromassagem','Sacada/Varanda','Vista para jardim','Vista para piscina','Café da manhã incluso','Cama king size','Cama queen size','Cama casal','Banheira','Cozinha completa','Bancada de trabalho','Cadeira ergonômica','Sofá-cama','Estacionamento'];
+  const contactTypes = ['Telefone da propriedade','WhatsApp da propriedade','Telefone reservas','WhatsApp reservas','Outro'];
+
+  function goStep(n) {
+    document.getElementById('fp' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('fp' + n).classList.add('active');
+    document.getElementById('fpbar').style.width = Math.round((n / TOTAL) * 100) + '%';
+    for (let i = 1; i <= TOTAL; i++) {
+      const dot = document.getElementById('pd' + i), lbl = document.getElementById('pl' + i);
+      if (i < n) { dot.textContent = '✓'; dot.className = 'pill-dot done'; lbl.className = 'pill-label done'; }
+      else if (i === n) { dot.textContent = i; dot.className = 'pill-dot active'; lbl.className = 'pill-label active'; }
+      else { dot.textContent = i; dot.className = 'pill-dot'; lbl.className = 'pill-label'; }
+      if (i < TOTAL) { const line = document.getElementById('pline' + i); if (line) line.className = 'pill-line' + (i < n ? ' done' : ''); }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function addContact(defaultType) {
+    contactCount++;
+    const div = document.createElement('div');
+    div.className = 'contact-item'; div.id = 'ct' + contactCount;
+    const typeOptions = contactTypes.map(t => `<option value="${t}"${t === defaultType ? ' selected' : ''}>${t}</option>`).join('');
+    div.innerHTML = `
+      <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:11px">Tipo</label><select class="f-input" style="padding:8px 10px">${typeOptions}</select></div>
+      <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:11px">Número <span class="f-req">*</span></label><input class="f-input" type="tel" placeholder="(00) 00000-0000"></div>
+      <button class="btn-remove-contact" onclick="removeContact('ct${contactCount}')" title="Remover">✕</button>`;
+    document.getElementById('contact-list').appendChild(div);
+    updateContactMin();
+  }
+
+  function removeContact(id) {
+    if (document.querySelectorAll('.contact-item').length <= 1) {
+      const el = document.getElementById(id); el.style.outline = '2px solid rgba(196,86,26,.4)'; setTimeout(() => el.style.outline = '', 1500); return;
+    }
+    document.getElementById(id).remove(); updateContactMin();
+  }
+
+  function updateContactMin() {
+    const btns = document.querySelectorAll('.btn-remove-contact');
+    btns.forEach(b => b.style.visibility = btns.length <= 1 ? 'hidden' : 'visible');
+  }
+
+  function addTourist() {
+    touristCount++;
+    const div = document.createElement('div');
+    div.className = 'tourist-item'; div.id = 'tour' + touristCount;
+    div.innerHTML = `
+      <div class="tourist-header">
+        <span class="tourist-title">Ponto turístico ${touristCount}</span>
+        ${touristCount > 3 ? `<button class="btn-remove-acom" onclick="removeTourist('tour${touristCount}')">✕ Remover</button>` : ''}
+      </div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Nome <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Ex: Cânions de Capitólio"></div>
+      <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:12px">Descrição <span class="f-req">*</span></label><textarea class="f-input" style="min-height:60px" placeholder="Distância, como chegar, o que ver..."></textarea></div>`;
+    document.getElementById('tourist-list').appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function removeTourist(id) {
+    document.getElementById(id).remove();
+    document.querySelectorAll('.tourist-item').forEach((c, i) => { const t = c.querySelector('.tourist-title'); if (t) t.textContent = 'Ponto turístico ' + (i + 1); });
+    touristCount = document.querySelectorAll('.tourist-item').length;
+  }
+
+  function addSection() {
+    sectionCount++;
+    const key = 'sec' + sectionCount, name = 'Nova seção ' + sectionCount;
+    const row = document.createElement('div');
+    row.className = 'sec-row'; row.id = 'sec-row-' + key;
+    row.innerHTML = `<input class="section-name-input" type="text" value="${name}" placeholder="Nome da seção" oninput="updateSectionName('${key}', this.value)"><button class="btn-remove-acom" onclick="removeSection('${key}')">✕ Remover</button>`;
+    document.getElementById('extra-section-list').appendChild(row);
+
+    const textDiv = document.createElement('div');
+    textDiv.id = 'cond-' + key + '-text'; textDiv.className = 'f-group';
+    textDiv.innerHTML = `<label class="f-label"><span data-section-label="${key}">${name}</span> <span style="font-size:12px;color:var(--ink3);font-weight:400">— texto da seção</span></label><textarea class="f-input" placeholder="Descreva o conteúdo desta seção..."></textarea>`;
+    document.getElementById('cond-extra-texts').appendChild(textDiv);
+
+    const imgDiv = document.createElement('div');
+    imgDiv.id = 'cond-' + key + '-img'; imgDiv.className = 'f-group';
+    imgDiv.innerHTML = `<label class="f-label"><span data-section-label="${key}">${name}</span> <span style="font-size:12px;color:var(--ink3);font-weight:400">— imagens (opcional)</span></label><div class="f-upload"><div class="f-upload-icon">↑</div><div class="f-upload-text">Fotos para esta seção</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Máx. 10 MB por foto · Melhor resolução possível</div></div>`;
+    document.getElementById('cond-extra-imgs').appendChild(imgDiv);
+
+    row.querySelector('input').focus();
+  }
+
+  function removeSection(key) {
+    ['sec-row-' + key, 'cond-' + key + '-text', 'cond-' + key + '-img'].forEach(id => { const el = document.getElementById(id); if (el) el.remove(); });
+  }
+
+  function updateSectionName(key, value) {
+    const name = value.trim() || 'Nova seção';
+    document.querySelectorAll('[data-section-label="' + key + '"]').forEach(el => el.textContent = name);
+  }
+
+  function addAcom() {
+    acomCount++;
+    const div = document.createElement('div');
+    div.className = 'acom-card'; div.id = 'ac' + acomCount;
+    div.innerHTML = `
+      <div class="acom-card-header"><span class="acom-card-title">Categoria ${acomCount}</span><button class="btn-remove-acom" onclick="removeAcom('ac${acomCount}')">✕ Remover</button></div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Nome da categoria <span class="f-req">*</span></label><input class="f-input" type="text" placeholder="Use o mesmo nome cadastrado no HBOOK"></div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Descrição <span class="f-req">*</span></label><textarea class="f-input" style="min-height:70px" placeholder="Descreva o diferencial desta categoria para o hóspede..."></textarea></div>
+      <div class="f-group"><label class="f-label" style="font-size:12px">Comodidades <span class="f-req">*</span></label><div class="tag-row">${comodidades.map(c => `<span class="f-tag" onclick="this.classList.toggle('sel')">${c}</span>`).join('')}</div><input class="f-input" type="text" placeholder="Outras comodidades (separe por vírgula)" style="margin-top:6px"></div>
+      <div class="f-group" style="margin-bottom:0"><label class="f-label" style="font-size:12px">Fotos desta categoria <span class="f-req">*</span></label><div class="f-upload"><div class="f-upload-icon">↑</div><div class="f-upload-text">Enviar fotos da categoria</div><div class="f-upload-sub">JPG ou PNG · Mín. 1200×800px · Mín. 5 fotos · Máx. 10 MB por foto · Melhor resolução possível</div></div></div>`;
+    document.getElementById('acom-list').appendChild(div);
+    updateAcomCount();
+    div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function removeAcom(id) {
+    if (document.querySelectorAll('.acom-card').length <= 1) {
+      const el = document.getElementById(id); el.style.outline = '2px solid rgba(196,86,26,.4)'; setTimeout(() => el.style.outline = '', 1500); return;
+    }
+    document.getElementById(id).remove();
+    document.querySelectorAll('.acom-card').forEach((c, i) => { const t = c.querySelector('.acom-card-title'); if (t) t.textContent = 'Categoria ' + (i + 1); });
+    updateAcomCount();
+  }
+
+  function updateAcomCount() { document.getElementById('acom-count').textContent = document.querySelectorAll('.acom-card').length; }
+
+  function toggleSubmit() { document.getElementById('btn-submit').disabled = !document.getElementById('terms-check').checked; }
+
+  // Scroll nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = 'contexto';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  });
+
+  addAcom();
+  addContact('Telefone da propriedade');
+  addContact('WhatsApp da propriedade');
+  updateContactMin();
+  addTourist(); addTourist(); addTourist();
+</script>
+</body>
+</html>
