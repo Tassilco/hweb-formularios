@@ -517,7 +517,7 @@
           <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">O Combo Starter possui 4 páginas fixas. Em casos específicos é possível adicionar uma seção extra — nossa equipe entrará em contato para alinhar o conteúdo adicional.</p>
           <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Páginas incluídas no modelo</div>
           <div class="sec-fixed-item"><span class="sec-fixed-icon">🏠</span><span class="sec-fixed-name">Home</span><span class="sec-fixed-badge">Fixo</span></div>
-          <div class="sec-fixed-item"><span class="sec-fixed-icon">🛏</span><input id="quarto-name-input" class="section-name-input" type="text" value="Quartos / Acomodações" placeholder="Nome da página" oninput="updateQuartoName(this.value)"><span class="sec-fixed-badge" style="white-space:nowrap">✏ Renomeável</span></div>
+          <div class="sec-fixed-item" style="background:var(--accent-bg);border-color:rgba(196,86,26,.25)"><span class="sec-fixed-icon">🛏</span><input id="quarto-name-input" class="section-name-input" type="text" value="Quartos / Acomodações" placeholder="Nome da página" oninput="updateQuartoName(this.value)" style="color:var(--accent);border-bottom-color:rgba(196,86,26,.4)"><span class="sec-fixed-badge" style="white-space:nowrap;color:var(--accent);border-color:rgba(196,86,26,.3);background:rgba(196,86,26,.08)">✏ Renomeável</span></div>
           <div class="sec-fixed-item"><span class="sec-fixed-icon">🌄</span><span class="sec-fixed-name">Destino</span><span class="sec-fixed-badge">Fixo</span></div>
           <div class="sec-fixed-item" style="margin-bottom:24px"><span class="sec-fixed-icon">📞</span><span class="sec-fixed-name">Contato</span><span class="sec-fixed-badge">Fixo</span></div>
           <div style="border-top:1px solid var(--border);padding-top:20px">
@@ -806,7 +806,9 @@ POST <span class="n">/content</span>
       else { dot.textContent = i; dot.className = 'pill-dot'; lbl.className = 'pill-label'; }
       if (i < TOTAL) { const line = document.getElementById('pline' + i); if (line) line.className = 'pill-line' + (i < n ? ' done' : ''); }
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const fc = document.querySelector('.form-container');
+    const y = fc.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
   }
 
   function addContact(defaultType) {
