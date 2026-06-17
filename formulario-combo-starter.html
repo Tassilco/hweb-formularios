@@ -517,7 +517,7 @@
           <p style="font-size:13px;color:var(--ink2);margin-bottom:20px;line-height:1.6">O Combo Starter possui 4 páginas fixas. Em casos específicos é possível adicionar uma seção extra — nossa equipe entrará em contato para alinhar o conteúdo adicional.</p>
           <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Páginas incluídas no modelo</div>
           <div class="sec-fixed-item"><span class="sec-fixed-icon">🏠</span><span class="sec-fixed-name">Home</span><span class="sec-fixed-badge">Fixo</span></div>
-          <div class="sec-fixed-item"><span class="sec-fixed-icon">🛏</span><span class="sec-fixed-name">Quartos / Acomodações</span><span class="sec-fixed-badge">Fixo</span></div>
+          <div class="sec-fixed-item"><span class="sec-fixed-icon">🛏</span><input id="quarto-name-input" class="section-name-input" type="text" value="Quartos / Acomodações" placeholder="Nome da página" oninput="updateQuartoName(this.value)"><span class="sec-fixed-badge" style="white-space:nowrap">✏ Renomeável</span></div>
           <div class="sec-fixed-item"><span class="sec-fixed-icon">🌄</span><span class="sec-fixed-name">Destino</span><span class="sec-fixed-badge">Fixo</span></div>
           <div class="sec-fixed-item" style="margin-bottom:24px"><span class="sec-fixed-icon">📞</span><span class="sec-fixed-name">Contato</span><span class="sec-fixed-badge">Fixo</span></div>
           <div style="border-top:1px solid var(--border);padding-top:20px">
@@ -546,7 +546,7 @@
 
         <!-- PAINEL 5 — Quartos -->
         <div class="form-panel" id="fp5">
-          <div class="form-section-label">Etapa 5 de 6 — Quartos / Acomodações</div>
+          <div class="form-section-label">Etapa 5 de 6 — <span id="quarto-step-title">Quartos / Acomodações</span></div>
           <div class="warn-hbook"><strong>⚠ Mantenha as categorias idênticas às do seu motor de reservas</strong>Os nomes e a quantidade de categorias aqui devem ser os mesmos cadastrados no HBOOK. Isso garante que o hóspede veja as mesmas opções no site e na reserva, sem confusão.</div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
             <span style="font-size:13px;font-weight:600;color:var(--ink)">Categorias cadastradas <span id="acom-count" style="font-size:12px;background:var(--accent-bg);color:var(--accent);padding:2px 10px;border-radius:20px;font-weight:600;margin-left:6px">1</span></span>
@@ -883,6 +883,12 @@ POST <span class="n">/content</span>
   function updateSectionName(key, value) {
     const name = value.trim() || 'Nova seção';
     document.querySelectorAll('[data-section-label="' + key + '"]').forEach(el => el.textContent = name);
+  }
+
+  function updateQuartoName(value) {
+    const name = value.trim() || 'Quartos / Acomodações';
+    document.getElementById('pl5').textContent = name;
+    document.getElementById('quarto-step-title').textContent = name;
   }
 
   function addAcom() {
